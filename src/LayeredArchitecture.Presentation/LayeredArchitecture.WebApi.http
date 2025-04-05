@@ -1,0 +1,15 @@
+@LayeredArchitecture.Presentation_HostAddress = http://localhost:5081
+
+GET http://localhost:5081/courses
+Accept: application/json
+
+###
+
+POST http://localhost:5081/courses
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Matematik",
+  "quota": 15
+}

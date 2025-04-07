@@ -2,7 +2,7 @@ namespace LayeredArchitecture.Domain;
 
 public class Student
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string nameSurname { get; set; }
     public string parentNameSurname { get; set; }
     public string phone { get; set; }

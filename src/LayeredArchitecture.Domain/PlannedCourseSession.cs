@@ -6,6 +6,9 @@ public class PlannedCourseSession
     public Guid plannedCourseId { get; set; }
     public PlannedCourse plannedCourse { get; set; }
     public DateTime dateTime { get; set; }
-
+    protected PlannedCourseSession()
+    {
+        
+    }
     public ICollection<PlannedCourseSessionDiscontinuity> plannedCourseSessionDiscontinuities {get; set ;}
 }

@@ -8,5 +8,8 @@ public class PlannedCourseSessionDiscontinuity
     public Student student { get; set; }
     public Guid PlannedCourseSessionId { get; set; }
     public PlannedCourseSession plannedCourseSession { get; set; }
-
+    protected PlannedCourseSessionDiscontinuity()
+    {
+        
+    }
 }

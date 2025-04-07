@@ -11,8 +11,10 @@ public class LayeredArchitectureDbContext : DbContext, ILayeredArchitectureDbCon
     {
     }
     //migration
-    // dotnet ef migrations add Create --startup-project ..\LayeredArchitecture.Presentation --output-dir .\Database\Migrations --project ..\LayeredArchitecture.Infrastructure
+    // dotnet ef migrations add Initial --startup-project ..\LayeredArchitecture.Presentation --output-dir .\Database\Migrations --project ..\LayeredArchitecture.Infrastructure
     //db update
+    // dotnet ef database update --startup-project ..\LayeredArchitecture.Presentation --project ..\LayeredArchitecture.Infrastructure
+
     public override int SaveChanges()
     {
         return base.SaveChanges();

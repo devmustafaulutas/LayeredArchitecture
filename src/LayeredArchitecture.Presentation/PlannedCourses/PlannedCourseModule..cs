@@ -1,7 +1,7 @@
 using LayeredArchitecture.Application.PlannedCourses.Commands.CreatePlannedCourse;
 using LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCourse;
+using LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCourse;
 using LayeredArchitecture.Application.PlannedCourses.Queries;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LayeredArchitecture.WebApi.PlannedCourses;
@@ -26,6 +26,10 @@ public static class PlannedCourseModule
            command.Handle(plannedCourseId,updatePlannedCourseDto);
            return Results.NoContent();
         });
-        
+        app.MapDelete("plannedCourses/{plannedCourseId:guid}",(Guid plannedCourseId , DeletePlannedCourseCommand command) =>
+        {
+            command.Handle(plannedCourseId);
+            return Results.NoContent();
+        });
     }
 }

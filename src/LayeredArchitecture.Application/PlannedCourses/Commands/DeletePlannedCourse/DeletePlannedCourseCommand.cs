@@ -3,7 +3,7 @@ using LayeredArchitecture.Application.PlannedCourses.Queries;
 
 namespace LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCourse;
 
-public class DeletePlannedCourse(ILayeredArchitectureDbContext dbContext)
+public class DeletePlannedCourseCommand(ILayeredArchitectureDbContext dbContext)
 {
     public void Handle(Guid guid)
     {

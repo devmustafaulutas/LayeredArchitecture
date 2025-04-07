@@ -19,6 +19,10 @@ public class LayeredArchitectureDbContext : DbContext, ILayeredArchitectureDbCon
     }
     public DbSet<Course> Courses { get; set; }
     public DbSet<PlannedCourse> PlannedCourses { get; set; }
+    public DbSet<PlannedCourseSession> plannedCourseSessions {get ; set;}
+    public DbSet<PlannedCourseSessionDiscontinuity> plannedCourseSessionDiscontinuities { get; set; }
+    public DbSet<Student> students { get; set; }
+    public DbSet<StudentPayment> studentPayments { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LayeredArchitectureDbContext).Assembly);

@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LayeredArchitecture.Infrastructure.Migrations
+namespace LayeredArchitecture.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(LayeredArchitectureDbContext))]
     partial class LayeredArchitectureDbContextModelSnapshot : ModelSnapshot
@@ -56,8 +56,8 @@ namespace LayeredArchitecture.Infrastructure.Migrations
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("integer");
 
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<int>("StartTime")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

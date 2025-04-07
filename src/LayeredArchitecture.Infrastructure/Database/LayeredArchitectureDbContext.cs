@@ -1,6 +1,7 @@
 ﻿using LayeredArchitecture.Application.Abstractions.Database;
 using LayeredArchitecture.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LayeredArchitecture.Infrastructure.Database;
 
@@ -9,7 +10,9 @@ public class LayeredArchitectureDbContext : DbContext, ILayeredArchitectureDbCon
     public LayeredArchitectureDbContext(DbContextOptions<LayeredArchitectureDbContext> options) : base(options)
     {
     }
-    
+    //migration
+    // dotnet ef migrations add Initial --startup-project ..\LayeredArchitecture.Presentation --output-dir .\Database\Migrations --project ..\LayeredArchitecture.Infrastructure
+    //db update
     public override int SaveChanges()
     {
         return base.SaveChanges();
@@ -20,4 +23,5 @@ public class LayeredArchitectureDbContext : DbContext, ILayeredArchitectureDbCon
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LayeredArchitectureDbContext).Assembly);
     }
+
 }

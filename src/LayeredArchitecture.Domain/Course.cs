@@ -28,8 +28,6 @@ public class Course
         Quota = quota;
         Time = time;
     }
-    public void Delete()
-    {
-    }
+
     public ICollection<PlannedCourse> PlannedCourses { get; set; }
 }

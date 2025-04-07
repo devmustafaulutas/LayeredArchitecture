@@ -1,2 +1,3 @@
+using LayeredArchitecture.Domain;
 namespace LayeredArchitecture.Application.PlannedCourses.Commands.CreatePlannedCourse;
-public record CreatePlannedCourseDto(string Name,int Time,int Quota);
+public record CreatePlannedCourseDto(Guid courseId , Day day , int startTime);

@@ -1,0 +1,1 @@
+namespace LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCourse;

@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LayeredArchitecture.Infrastructure.Migrations
+namespace LayeredArchitecture.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(LayeredArchitectureDbContext))]
-    [Migration("20250404133605_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20250407105704_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,8 +59,8 @@ namespace LayeredArchitecture.Infrastructure.Migrations
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("integer");
 
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<int>("StartTime")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

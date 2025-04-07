@@ -3,9 +3,15 @@ using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
 using LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
 using LayeredArchitecture.Application.Courses.Commands.UpdateCourse;
 using LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
+using LayeredArchitecture.Application.PlannedCourses.Commands.CreatePlannedCourse;
+using LayeredArchitecture.Application.PlannedCourses.Queries;
 using LayeredArchitecture.Infrastructure.Database;
 using LayeredArchitecture.WebApi.Courses;
+using LayeredArchitecture.WebApi.PlannedCourses;
 using Microsoft.EntityFrameworkCore;
+
+// docker run --name pgdev -e POSTGRES_PASSWORD=123456 -d -p 5432:5432 -v C:\Docker\pgdev:/var/lib/postgresql/data  postgres
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,15 +19,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
-
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Database"),
+    b => b.MigrationsAssembly("LayeredArchitecture.Infrastructure"))
+);
 builder.Services.AddScoped<ILayeredArchitectureDbContext>(sp => sp.GetRequiredService<LayeredArchitectureDbContext>());
 
 builder.Services.AddScoped<GetAllCoursesQuery>();
 builder.Services.AddScoped<CreateCourseCommand>();
 builder.Services.AddScoped<UpdateCourseCommand>();
 builder.Services.AddScoped<DeleteCourseCommand>();
-
+builder.Services.AddScoped<CreatePlannedCourseCommand>();
+builder.Services.AddScoped<GetAllPlannedCoursesQuery>();
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,6 +46,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//Controllers
+app.AddPlannedCoursesEndpoints();
 app.AddCoursesEndpoints();
 
 app.Run();

@@ -13,25 +13,31 @@ public enum Day
 
 public class PlannedCourse
 {
-    public Guid Id { get; set; }
-    public Day DayOfWeek { get; set; }
-    public TimeOnly StartTime { get; set; }
-    public Guid CourseId { get; set; }
-    public Course Course { get; set; }
+    public Guid Id { get; private set; }
+    public Day DayOfWeek { get; private set; }
+    public int StartTime { get; private set; }
+    public Guid CourseId { get; private set; }
+    public Course Course { get; private set; }
 
 
     protected PlannedCourse()
     {
     }
-    public PlannedCourse Create( Course course , Day day , TimeOnly startTime)
+    public static PlannedCourse Create( Guid courseId , Day day , int startTime)
     {
         return new PlannedCourse
         {
             Id = Guid.NewGuid(),
-            CourseId = course.Id,
+            CourseId = courseId,
             DayOfWeek = day,
             StartTime = startTime
         };
     }
+    public void Update( Day day , int startTime)
+    {
+        DayOfWeek = day;
+        StartTime = startTime;
+    }
+
 }
 

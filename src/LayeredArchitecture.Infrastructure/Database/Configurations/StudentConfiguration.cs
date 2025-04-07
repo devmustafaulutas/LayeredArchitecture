@@ -1,10 +1,11 @@
 using LayeredArchitecture.Application.Abstractions.Database;
 using LayeredArchitecture.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LayeredArchitecture.Infrastructure.Database.Configurations;
 
-public class StudentConfiguration : ILayeredArchitectureDbContext<Student>
+public class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {

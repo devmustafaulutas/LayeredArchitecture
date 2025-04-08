@@ -29,9 +29,14 @@ public static class CoursesModule
 
             return Results.NoContent();
         });
-        app.MapDelete("/courses/{courseId:guid}" ,(Guid courseId , DeleteCourseCommand command) =>{
+        app.MapDelete("/course/{courseId:guid}" ,(Guid courseId , DeleteCourseCommand command) =>{
             command.Handle(courseId);
 
+            return Results.NoContent();
+        });
+        app.MapDelete("/courses" , (DeleteAllCoursesCommand command)=> 
+        {            
+            command.Handle();
             return Results.NoContent();
         });
     }

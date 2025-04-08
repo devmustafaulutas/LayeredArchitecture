@@ -11,6 +11,7 @@ using LayeredArchitecture.Application.Students.Commands.CreateStudent;
 using LayeredArchitecture.Application.Students.Commands.DeleteStudent;
 using LayeredArchitecture.Application.Students.Commands.UpdateStudent;
 using LayeredArchitecture.Application.Students.Queries.GetAllStudents;
+using LayeredArchitecture.Application.Validators.Course;
 using LayeredArchitecture.Infrastructure.Database;
 using LayeredArchitecture.WebApi.Courses;
 using LayeredArchitecture.WebApi.PlannedCourses;
@@ -35,6 +36,7 @@ builder.Services.AddScoped<GetAllCoursesQuery>();
 builder.Services.AddScoped<CreateCourseCommand>();
 builder.Services.AddScoped<UpdateCourseCommand>();
 builder.Services.AddScoped<DeleteCourseCommand>();
+builder.Services.AddScoped<DeleteAllCoursesCommand>();
 builder.Services.AddScoped<CreatePlannedCourseCommand>();
 builder.Services.AddScoped<UpdatePlannedCourseCommand>();
 builder.Services.AddScoped<DeletePlannedCourseCommand>();
@@ -43,6 +45,9 @@ builder.Services.AddScoped<GetAllStudentsQuery>();
 builder.Services.AddScoped<StudentCreateCommand>();
 builder.Services.AddScoped<StudentUpdateCommand>();
 builder.Services.AddScoped<StudentDeleteCommand>();
+builder.Services.AddScoped<CreateCourseValidator>();
+builder.Services.AddScoped<UpdateCourseValidator>();
+
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

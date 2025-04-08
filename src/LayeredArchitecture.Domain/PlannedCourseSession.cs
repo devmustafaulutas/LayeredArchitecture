@@ -5,7 +5,7 @@ public class PlannedCourseSession
     public Guid Id { get; set; }
     public Guid plannedCourseId { get; set; }
     public PlannedCourse plannedCourse { get; set; }
-    public DateTime dateTime { get; set; }
+    public int dateTime { get; set; }
     protected PlannedCourseSession()
     {
         

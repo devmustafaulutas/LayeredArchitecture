@@ -27,9 +27,10 @@ public static class StudentModule
             command.Handle(guid , studentUpdateDto);
             return Results.NoContent();
         });
-        app.MapDelete("/students/{studentId:guid}",(Guid guid , StudentDeleteDto studentDeleteDto , StudentDeleteCommand command) =>
+        app.MapDelete("/students/{studentId:guid}",(Guid guid , StudentDeleteCommand command) =>
         {
-            command.Handle(studentDeleteDto);
+            
+            command.Handle(guid);
             return Results.NoContent();
         });
     }

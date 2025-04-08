@@ -17,7 +17,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Time = table.Column<int>(type: "integer", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Quota = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -60,7 +60,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     DayOfWeek = table.Column<int>(type: "integer", nullable: false),
-                    StartTime = table.Column<int>(type: "integer", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CourseId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

@@ -10,10 +10,6 @@ public class UpdateCourseCommand(ILayeredArchitectureDbContext dbContext)
         
         course.Update(courseDto.Name, courseDto.Quota,courseDto.Time);
 
-        if(courseDto.Time % 15 != 0)
-        {
-            throw new Exception("Time must be a multiple of 15");
-        }
         dbContext.Courses.Update(course);
         
         dbContext.SaveChanges();

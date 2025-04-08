@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LayeredArchitecture.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(LayeredArchitectureDbContext))]
-    [Migration("20250408074718_Initial")]
+    [Migration("20250408103317_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -39,8 +39,8 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                     b.Property<int>("Quota")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Time")
-                        .HasColumnType("integer");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -59,8 +59,8 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StartTime")
-                        .HasColumnType("integer");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

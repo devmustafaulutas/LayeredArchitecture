@@ -15,7 +15,7 @@ public class PlannedCourse
 {
     public Guid Id { get; private set; }
     public Day DayOfWeek { get; private set; }
-    public int StartTime { get; private set; }
+    public DateTime StartTime { get; private set; }
     public Guid CourseId { get; private set; }
     public Course Course { get; private set; }
 
@@ -23,7 +23,7 @@ public class PlannedCourse
     protected PlannedCourse()
     {
     }
-    public static PlannedCourse Create( Guid courseId , Day dayOFweek , int startTime)
+    public static PlannedCourse Create( Guid courseId , Day dayOFweek , DateTime startTime)
     {
         return new PlannedCourse
         {
@@ -33,7 +33,7 @@ public class PlannedCourse
             StartTime = startTime
         };
     }
-    public void Update( Day day , int startTime)
+    public void Update( Day day , DateTime startTime)
     {
         DayOfWeek = day;
         StartTime = startTime;

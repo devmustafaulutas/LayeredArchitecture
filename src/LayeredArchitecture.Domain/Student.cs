@@ -23,5 +23,13 @@ public class Student
             parentPhone = parentPhone
         };
     }
+    public void Update(string nameSurnameParam , string parentNameSurnameParam , string phoneParam , string parentPhoneParam)
+    {
+        nameSurname = nameSurnameParam;
+        parentNameSurname = parentNameSurnameParam;
+        phone = phoneParam;
+        parentPhone = parentPhoneParam;
+    }
+    
     public ICollection<StudentPayment> studentPayments { get; set; }
 }

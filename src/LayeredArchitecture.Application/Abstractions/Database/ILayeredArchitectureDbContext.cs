@@ -7,9 +7,9 @@ public interface ILayeredArchitectureDbContext
 {
     DbSet<Course> Courses { get; }
     DbSet<PlannedCourse> PlannedCourses { get; }
-    DbSet<PlannedCourseSession> plannedCourseSessions {get;}
-    DbSet<PlannedCourseSessionDiscontinuity> plannedCourseSessionDiscontinuities {get ;}
-    DbSet<Student> students {get;}
-    DbSet<StudentPayment> studentPayments {get ;}
+    DbSet<PlannedCourseSession> PlannedCourseSessions {get;}
+    DbSet<PlannedCourseSessionDiscontinuity> PlannedCourseSessionDiscontinuities {get ;}
+    DbSet<Student> Students {get;}
+    DbSet<StudentPayment> StudentPayments {get ;}
     int SaveChanges();
 }

@@ -8,7 +8,7 @@ public class StudentCreateCommand  (ILayeredArchitectureDbContext dbContext)
     public Guid Handle(StudentCreateDto studentCreateDto)
     {
         var student  = Student.Create(studentCreateDto.nameSurname ,studentCreateDto.parentNameSurname , studentCreateDto.phone , studentCreateDto.parentPhone);
-        dbContext.students.Add(student);
+        dbContext.Students.Add(student);
         dbContext.SaveChanges();
         return student.Id;
     }

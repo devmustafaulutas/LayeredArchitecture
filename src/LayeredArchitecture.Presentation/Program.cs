@@ -8,7 +8,9 @@ using LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCours
 using LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCourse;
 using LayeredArchitecture.Application.PlannedCourses.Queries;
 using LayeredArchitecture.Application.Students.Commands.CreateStudent;
+using LayeredArchitecture.Application.Students.Commands.DeleteStudent;
 using LayeredArchitecture.Application.Students.Commands.UpdateStudent;
+using LayeredArchitecture.Application.Students.Queries.GetAllStudents;
 using LayeredArchitecture.Infrastructure.Database;
 using LayeredArchitecture.WebApi.Courses;
 using LayeredArchitecture.WebApi.PlannedCourses;
@@ -37,8 +39,10 @@ builder.Services.AddScoped<CreatePlannedCourseCommand>();
 builder.Services.AddScoped<UpdatePlannedCourseCommand>();
 builder.Services.AddScoped<DeletePlannedCourseCommand>();
 builder.Services.AddScoped<GetAllPlannedCoursesQuery>();
+builder.Services.AddScoped<GetAllStudentsQuery>();
 builder.Services.AddScoped<StudentCreateCommand>();
 builder.Services.AddScoped<StudentUpdateCommand>();
+builder.Services.AddScoped<StudentDeleteCommand>();
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -23,13 +23,13 @@ public class PlannedCourse
     protected PlannedCourse()
     {
     }
-    public static PlannedCourse Create( Guid courseId , Day day , int startTime)
+    public static PlannedCourse Create( Guid courseId , Day dayOFweek , int startTime)
     {
         return new PlannedCourse
         {
             Id = Guid.NewGuid(),
             CourseId = courseId,
-            DayOfWeek = day,
+            DayOfWeek = dayOFweek,
             StartTime = startTime
         };
     }

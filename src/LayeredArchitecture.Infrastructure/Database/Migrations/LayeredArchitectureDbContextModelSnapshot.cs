@@ -82,7 +82,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
 
                     b.HasIndex("plannedCourseId");
 
-                    b.ToTable("plannedCourseSessions");
+                    b.ToTable("PlannedCourseSessions");
                 });
 
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseSessionDiscontinuity", b =>
@@ -116,7 +116,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                     b.HasIndex("StudentId", "PlannedCourseSessionId")
                         .IsUnique();
 
-                    b.ToTable("plannedCourseSessionDiscontinuities");
+                    b.ToTable("PlannedCourseSessionDiscontinuities");
                 });
 
             modelBuilder.Entity("LayeredArchitecture.Domain.Student", b =>
@@ -147,7 +147,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("students");
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("LayeredArchitecture.Domain.StudentPayment", b =>
@@ -167,7 +167,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("studentPayments");
+                    b.ToTable("StudentPayments");
                 });
 
             modelBuilder.Entity("StudentStudentPayment", b =>
@@ -218,7 +218,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                     b.HasOne("LayeredArchitecture.Domain.PlannedCourseSession", null)
                         .WithMany("plannedCourseSessionDiscontinuities")
                         .HasForeignKey("PlannedCourseSessionId1")
-                        .HasConstraintName("FK_plannedCourseSessionDiscontinuities_plannedCourseSessions_~1");
+                        .HasConstraintName("FK_PlannedCourseSessionDiscontinuities_PlannedCourseSessions_~1");
 
                     b.HasOne("LayeredArchitecture.Domain.Student", "student")
                         .WithMany()

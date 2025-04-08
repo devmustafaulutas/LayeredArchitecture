@@ -26,7 +26,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "studentPayments",
+                name: "StudentPayments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -36,11 +36,11 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_studentPayments", x => x.Id);
+                    table.PrimaryKey("PK_StudentPayments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "students",
+                name: "Students",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -51,7 +51,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_students", x => x.Id);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,21 +85,21 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 {
                     table.PrimaryKey("PK_StudentStudentPayment", x => new { x.studentPaymentsId, x.studentsId });
                     table.ForeignKey(
-                        name: "FK_StudentStudentPayment_studentPayments_studentPaymentsId",
+                        name: "FK_StudentStudentPayment_StudentPayments_studentPaymentsId",
                         column: x => x.studentPaymentsId,
-                        principalTable: "studentPayments",
+                        principalTable: "StudentPayments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentStudentPayment_students_studentsId",
+                        name: "FK_StudentStudentPayment_Students_studentsId",
                         column: x => x.studentsId,
-                        principalTable: "students",
+                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "plannedCourseSessions",
+                name: "PlannedCourseSessions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -108,9 +108,9 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_plannedCourseSessions", x => x.Id);
+                    table.PrimaryKey("PK_PlannedCourseSessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_plannedCourseSessions_PlannedCourses_plannedCourseId",
+                        name: "FK_PlannedCourseSessions_PlannedCourses_plannedCourseId",
                         column: x => x.plannedCourseId,
                         principalTable: "PlannedCourses",
                         principalColumn: "Id",
@@ -118,7 +118,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "plannedCourseSessionDiscontinuities",
+                name: "PlannedCourseSessionDiscontinuities",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -130,22 +130,22 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_plannedCourseSessionDiscontinuities", x => x.Id);
+                    table.PrimaryKey("PK_PlannedCourseSessionDiscontinuities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_plannedCourseSessionDiscontinuities_plannedCourseSessions_P~",
+                        name: "FK_PlannedCourseSessionDiscontinuities_PlannedCourseSessions_P~",
                         column: x => x.PlannedCourseSessionId,
-                        principalTable: "plannedCourseSessions",
+                        principalTable: "PlannedCourseSessions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_plannedCourseSessionDiscontinuities_plannedCourseSessions_~1",
+                        name: "FK_PlannedCourseSessionDiscontinuities_PlannedCourseSessions_~1",
                         column: x => x.PlannedCourseSessionId1,
-                        principalTable: "plannedCourseSessions",
+                        principalTable: "PlannedCourseSessions",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_plannedCourseSessionDiscontinuities_students_StudentId",
+                        name: "FK_PlannedCourseSessionDiscontinuities_Students_StudentId",
                         column: x => x.StudentId,
-                        principalTable: "students",
+                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -156,24 +156,24 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_plannedCourseSessionDiscontinuities_PlannedCourseSessionId",
-                table: "plannedCourseSessionDiscontinuities",
+                name: "IX_PlannedCourseSessionDiscontinuities_PlannedCourseSessionId",
+                table: "PlannedCourseSessionDiscontinuities",
                 column: "PlannedCourseSessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_plannedCourseSessionDiscontinuities_PlannedCourseSessionId1",
-                table: "plannedCourseSessionDiscontinuities",
+                name: "IX_PlannedCourseSessionDiscontinuities_PlannedCourseSessionId1",
+                table: "PlannedCourseSessionDiscontinuities",
                 column: "PlannedCourseSessionId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_plannedCourseSessionDiscontinuities_StudentId_PlannedCourse~",
-                table: "plannedCourseSessionDiscontinuities",
+                name: "IX_PlannedCourseSessionDiscontinuities_StudentId_PlannedCourse~",
+                table: "PlannedCourseSessionDiscontinuities",
                 columns: new[] { "StudentId", "PlannedCourseSessionId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_plannedCourseSessions_plannedCourseId",
-                table: "plannedCourseSessions",
+                name: "IX_PlannedCourseSessions_plannedCourseId",
+                table: "PlannedCourseSessions",
                 column: "plannedCourseId");
 
             migrationBuilder.CreateIndex(
@@ -186,19 +186,19 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "plannedCourseSessionDiscontinuities");
+                name: "PlannedCourseSessionDiscontinuities");
 
             migrationBuilder.DropTable(
                 name: "StudentStudentPayment");
 
             migrationBuilder.DropTable(
-                name: "plannedCourseSessions");
+                name: "PlannedCourseSessions");
 
             migrationBuilder.DropTable(
-                name: "studentPayments");
+                name: "StudentPayments");
 
             migrationBuilder.DropTable(
-                name: "students");
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "PlannedCourses");

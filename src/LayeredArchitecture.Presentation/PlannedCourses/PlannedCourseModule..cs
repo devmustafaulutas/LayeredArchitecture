@@ -10,7 +10,7 @@ public static class PlannedCourseModule
 {
     public static void AddPlannedCoursesEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("plannedCourses" , (GetAllPlannedCoursesQuery query) =>
+        app.MapGet("/plannedCourses" , (GetAllPlannedCoursesQuery query) =>
         {
             var result = query.Handle();
             return Results.Ok(result);
@@ -26,7 +26,7 @@ public static class PlannedCourseModule
            command.Handle(plannedCourseId,updatePlannedCourseDto);
            return Results.NoContent();
         });
-        app.MapDelete("plannedCourses/{plannedCourseId:guid}",(Guid plannedCourseId , DeletePlannedCourseCommand command) =>
+        app.MapDelete("/plannedCourses/{plannedCourseId:guid}",(Guid plannedCourseId , DeletePlannedCourseCommand command) =>
         {
             command.Handle(plannedCourseId);
             return Results.NoContent();

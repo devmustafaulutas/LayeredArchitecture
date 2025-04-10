@@ -1,20 +1,5 @@
-using LayeredArchitecture.Application.Abstractions.Database;
+using LayeredArchitecture.Domain;
 
-namespace  LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCourse;
-public class UpdatePlannedCourseCommand(ILayeredArchitectureDbContext dbContext)
-{
+namespace LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCourse;
 
-    public void Handle( Guid  plannedCourseId , UpdatePlannedCourseDto updatePlannedCourseDto )
-    {
-        var plannedCourse = dbContext.PlannedCourses.Find(plannedCourseId);
-        if (plannedCourse is not null)
-        {
-            plannedCourse.Update(updatePlannedCourseDto.day ,updatePlannedCourseDto.startTime);
-            dbContext.PlannedCourses.Update(plannedCourse);
-            dbContext.SaveChanges();
-        }
-        else{
-            throw new Exception("Planned Course is null");
-        }
-    }
-}
+public record UpdatePlannedCourseDto(Day day , int startTime);

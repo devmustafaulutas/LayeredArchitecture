@@ -17,6 +17,4 @@ public record PlannedCourseDto(
     public string StartTimeFormatted => FormatHelper.FormatTime(StartTime);
 
     public string EndTimeFormatted => FormatHelper.FormatTime(StartTime + 60);
-
-
 }

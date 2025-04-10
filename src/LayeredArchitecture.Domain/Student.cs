@@ -32,4 +32,5 @@ public class Student
     }
     
     public ICollection<StudentPayment> studentPayments { get; set; }
+    public ICollection<PlannedCourseStudent> plannedCourseStudents { get; set; }
 }

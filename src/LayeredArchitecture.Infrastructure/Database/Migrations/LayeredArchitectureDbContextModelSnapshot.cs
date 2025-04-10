@@ -97,11 +97,11 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                     b.Property<Guid?>("PlannedCourseSessionId1")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uuid");
-
                     b.Property<bool>("discontinuity")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("plannedCourseStudentId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("price")
                         .HasPrecision(10, 2)
@@ -113,10 +113,34 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
 
                     b.HasIndex("PlannedCourseSessionId1");
 
-                    b.HasIndex("StudentId", "PlannedCourseSessionId")
+                    b.HasIndex("plannedCourseStudentId", "PlannedCourseSessionId")
                         .IsUnique();
 
                     b.ToTable("PlannedCourseSessionDiscontinuities");
+                });
+
+            modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseStudent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("plannedCourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("studentId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("plannedCourseId");
+
+                    b.HasIndex("studentId");
+
+                    b.ToTable("PlannedCourseStudents");
                 });
 
             modelBuilder.Entity("LayeredArchitecture.Domain.Student", b =>
@@ -220,13 +244,32 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .HasForeignKey("PlannedCourseSessionId1")
                         .HasConstraintName("FK_PlannedCourseSessionDiscontinuities_PlannedCourseSessions_~1");
 
-                    b.HasOne("LayeredArchitecture.Domain.Student", "student")
+                    b.HasOne("LayeredArchitecture.Domain.PlannedCourseStudent", "plannedCourseStudent")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("plannedCourseStudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("plannedCourseSession");
+
+                    b.Navigation("plannedCourseStudent");
+                });
+
+            modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseStudent", b =>
+                {
+                    b.HasOne("LayeredArchitecture.Domain.PlannedCourse", "plannedCourse")
+                        .WithMany("plannedCourseStudents")
+                        .HasForeignKey("plannedCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LayeredArchitecture.Domain.Student", "student")
+                        .WithMany()
+                        .HasForeignKey("studentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("plannedCourse");
 
                     b.Navigation("student");
                 });
@@ -254,6 +297,8 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourse", b =>
                 {
                     b.Navigation("plannedCourseSessions");
+
+                    b.Navigation("plannedCourseStudents");
                 });
 
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseSession", b =>

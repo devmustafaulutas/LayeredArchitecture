@@ -11,12 +11,12 @@ public class PlannedCourseSessionDiscontinuityConfiguration : IEntityTypeConfigu
         builder.HasKey(pcsd => pcsd.Id);
         builder.Property(pcsd => pcsd.price).HasPrecision(10,2);
 
-        builder.HasOne(pcsd => pcsd.student)
-                .WithMany().HasForeignKey(pcsd => pcsd.StudentId);
+        builder.HasOne(pcsd => pcsd.plannedCourseStudent)
+                .WithMany().HasForeignKey(pcsd => pcsd.plannedCourseStudentId);
         builder.HasOne(pcsd => pcsd.plannedCourseSession)
                 .WithMany().HasForeignKey(pcsd => pcsd.PlannedCourseSessionId);
 
-        builder.HasIndex(pcsd => new { pcsd.StudentId , pcsd.PlannedCourseSessionId })
+        builder.HasIndex(pcsd => new { pcsd.plannedCourseStudentId , pcsd.PlannedCourseSessionId })
                 .IsUnique();
     }
 }

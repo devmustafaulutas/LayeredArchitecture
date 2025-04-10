@@ -17,7 +17,7 @@ public static class StudentModule
             var result = query.Handle();
             return Results.Ok(result);
         });
-        app.MapPatch("/students" , ([FromBody] StudentCreateDto studentCreateDto , StudentCreateCommand command) => 
+        app.MapPost("/students" , ([FromBody] StudentCreateDto studentCreateDto , StudentCreateCommand command) => 
         {
             command.Handle(studentCreateDto);
             return Results.Ok();
@@ -32,7 +32,7 @@ public static class StudentModule
             command.Handle(guid);
             return Results.NoContent();
         });
-        app.MapDelete("students",(StudentDeleteAllCommand command)=>
+        app.MapDelete("/students",(StudentDeleteAllCommand command)=>
         {
             command.Handle();
             return Results.NoContent();

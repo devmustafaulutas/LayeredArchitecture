@@ -11,5 +11,6 @@ public interface ILayeredArchitectureDbContext
     DbSet<PlannedCourseSessionDiscontinuity> PlannedCourseSessionDiscontinuities {get ;}
     DbSet<Student> Students {get;}
     DbSet<StudentPayment> StudentPayments {get ;}
+    DbSet<PlannedCourseStudent> PlannedCourseStudents {get ;}
     int SaveChanges();
 }

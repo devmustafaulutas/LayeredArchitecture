@@ -18,8 +18,6 @@ public class PlannedCourse
     public int StartTime { get; private set; }
     public Guid CourseId { get; private set; }
     public Course Course { get; private set; }
-
-
     protected PlannedCourse()
     {
     }
@@ -39,5 +37,6 @@ public class PlannedCourse
         StartTime = startTime;
     }
     public ICollection<PlannedCourseSession> plannedCourseSessions {get ; set ;}
+    public ICollection<PlannedCourseStudent> plannedCourseStudents { get; set; }
 }
 

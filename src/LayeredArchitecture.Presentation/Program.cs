@@ -1,25 +1,12 @@
 using LayeredArchitecture.Application.Abstractions.Database;
-using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
-using LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
-using LayeredArchitecture.Application.Courses.Commands.UpdateCourse;
-using LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
-using LayeredArchitecture.Application.Helpers;
-using LayeredArchitecture.Application.PlannedCourses.Commands.CreatePlannedCourse;
-using LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCourse;
-using LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCourse;
-using LayeredArchitecture.Application.PlannedCourses.Queries;
-using LayeredArchitecture.Application.Students.Commands.CreateStudent;
-using LayeredArchitecture.Application.Students.Commands.DeleteStudent;
-using LayeredArchitecture.Application.Students.Commands.UpdateStudent;
-using LayeredArchitecture.Application.Students.Queries.GetAllStudents;
-using LayeredArchitecture.Application.Validators.Course;
 using LayeredArchitecture.Infrastructure.Database;
+using LayeredArchitecture.WebApi.Students;
 using LayeredArchitecture.WebApi.Courses;
 using LayeredArchitecture.WebApi.PlannedCourses;
-using LayeredArchitecture.WebApi.Students;
+using LayeredArchitecture.WebApi.PlannedCourseStudents;
+using LayeredArchitecture.Application.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-
-// docker run --name pgdev -e POSTGRES_PASSWORD=123456 -d -p 5432:5432 -v C:\Docker\pgdev:/var/lib/postgresql/data  postgres
+using Scalar.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,37 +20,38 @@ builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
 );
 builder.Services.AddScoped<ILayeredArchitectureDbContext>(sp => sp.GetRequiredService<LayeredArchitectureDbContext>());
 
-builder.Services.AddScoped<GetAllCoursesQuery>();
-builder.Services.AddScoped<CreateCourseCommand>();
-builder.Services.AddScoped<UpdateCourseCommand>();
-builder.Services.AddScoped<DeleteCourseCommand>();
-builder.Services.AddScoped<DeleteAllCoursesCommand>();
-builder.Services.AddScoped<CreatePlannedCourseCommand>();
-builder.Services.AddScoped<UpdatePlannedCourseCommand>();
-builder.Services.AddScoped<DeletePlannedCourseCommand>();
-builder.Services.AddScoped<GetAllPlannedCoursesQuery>();
-builder.Services.AddScoped<GetAllStudentsQuery>();
-builder.Services.AddScoped<StudentCreateCommand>();
-builder.Services.AddScoped<StudentUpdateCommand>();
-builder.Services.AddScoped<StudentDeleteCommand>();
-builder.Services.AddScoped<StudentDeleteAllCommand>();
-builder.Services.AddScoped<CreateCourseValidator>();
-builder.Services.AddScoped<UpdateCourseValidator>();
-builder.Services.AddScoped<FormatHelper>();
+// All Services DI 
+builder.Services.AddApplicationServices();
 
 //Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddSwaggerGen();
+
+//Scalar
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+
 //Logging
 builder.Logging.AddConsole();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Swagger
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
+
+// Scalar
+app.MapOpenApi();
+app.MapScalarApiReference(opt =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    opt
+        .WithTitle("Test Api")
+        .WithTheme(ScalarTheme.Default)
+        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+});
 
 app.UseHttpsRedirection();
 
@@ -71,5 +59,8 @@ app.UseHttpsRedirection();
 app.AddPlannedCoursesEndpoints();
 app.AddCoursesEndpoints();
 app.AddStudentEndpoints();
+app.AddPlannedCourseStudentsEndPoints();
 
+//For scalar
+app.MapControllers();
 app.Run();

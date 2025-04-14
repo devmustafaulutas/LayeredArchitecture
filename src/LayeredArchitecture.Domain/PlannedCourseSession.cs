@@ -3,8 +3,8 @@ namespace LayeredArchitecture.Domain;
 public class PlannedCourseSession
 {
     public Guid Id { get; private set; }
-    public Guid plannedCourseId { get; private set; }
     public DateOnly date { get; private set; }
+    public Guid plannedCourseId { get; private set; }
     public PlannedCourse plannedCourse { get; private set; }
     
     
@@ -12,12 +12,13 @@ public class PlannedCourseSession
     protected PlannedCourseSession()
     {
     }
-    public static PlannedCourseSession Create(DateOnly dateParam)
+    public static PlannedCourseSession Create(Guid plannedCourseIdParam , DateOnly dateParam)
     {
 
         return new PlannedCourseSession
         {
             Id = Guid.NewGuid(),
+            plannedCourseId = plannedCourseIdParam,
             date =  dateParam
         };
     }
@@ -26,4 +27,7 @@ public class PlannedCourseSession
         date = dateParam;
     }
     public ICollection<PlannedCourseSessionDiscontinuity> plannedCourseSessionDiscontinuities {get; set ;}
+    public ICollection<PlannedCourseStudent> plannedCourseStudents { get; set; }
+    
+    
 }

@@ -8,6 +8,7 @@ using LayeredArchitecture.WebApi.PlannedCourseSessions;
 using LayeredArchitecture.Application.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+    using LayeredArchitecture.WebApi.StudentPayments;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,7 +63,9 @@ app.AddCoursesEndpoints();
 app.AddStudentEndpoints();
 app.AddPlannedCourseStudentsEndPoints();
 app.AddPlannedCourseSessionsEndPoints();
+app.AddStudentPaymentEndPoints();
 
 //For scalar
 app.MapControllers();
+
 app.Run();

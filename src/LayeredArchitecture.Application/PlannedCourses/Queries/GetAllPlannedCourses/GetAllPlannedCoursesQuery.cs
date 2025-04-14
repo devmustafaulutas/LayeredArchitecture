@@ -8,14 +8,14 @@ public class GetAllPlannedCoursesQuery(ILayeredArchitectureDbContext dbContext)
     public List<PlannedCourseDto> Handle()
     {
         var courses = dbContext.PlannedCourses
-            .Include(p => p.Course)  // Kurs bilgisiyle birlikte getiriyoruz
+            .Include(p => p.Course)  
             .Select(p => new PlannedCourseDto(
                 p.Id,
                 p.CourseId,
                 p.Course.Name,
-                p.DayOfWeek,  // DayOfWeek enum olarak geliyor
-                p.StartTime,  // Başlangıç saati (dakika cinsinden)
-                p.Course.Quota  // Kotası
+                p.DayOfWeek,
+                p.StartTime,  
+                p.Course.Quota  
             ))
             .ToList();
         return courses;

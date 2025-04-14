@@ -104,7 +104,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     plannedCourseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    dateTime = table.Column<int>(type: "integer", nullable: false)
+                    date = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -36,7 +36,7 @@ public class PlannedCourse
         DayOfWeek = day;
         StartTime = startTime;
     }
-    public ICollection<PlannedCourseSession> plannedCourseSessions {get ; set ;}
-    public ICollection<PlannedCourseStudent> plannedCourseStudents { get; set; }
+    public ICollection<PlannedCourseSession> plannedCourseSessions { get ; set; }
+    public ICollection<PlannedCourseStudent> plannedCourseStudents { get ; set; }
 }
 

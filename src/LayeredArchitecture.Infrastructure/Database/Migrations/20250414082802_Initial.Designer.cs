@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LayeredArchitecture.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(LayeredArchitectureDbContext))]
-    [Migration("20250410083121_Initial")]
+    [Migration("20250414082802_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -75,8 +75,8 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("dateTime")
-                        .HasColumnType("integer");
+                    b.Property<DateOnly>("date")
+                        .HasColumnType("date");
 
                     b.Property<Guid>("plannedCourseId")
                         .HasColumnType("uuid");
@@ -267,7 +267,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("LayeredArchitecture.Domain.Student", "student")
-                        .WithMany()
+                        .WithMany("plannedCourseStudents")
                         .HasForeignKey("studentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -307,6 +307,11 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseSession", b =>
                 {
                     b.Navigation("plannedCourseSessionDiscontinuities");
+                });
+
+            modelBuilder.Entity("LayeredArchitecture.Domain.Student", b =>
+                {
+                    b.Navigation("plannedCourseStudents");
                 });
 #pragma warning restore 612, 618
         }

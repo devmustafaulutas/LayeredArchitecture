@@ -10,7 +10,7 @@ public class PlannedCourseSessionConfiguration : IEntityTypeConfiguration<Planne
     {
         builder.HasKey(plannedCourseSession => plannedCourseSession.Id);
         
-        builder.Property(plannedCourseSession => plannedCourseSession.dateTime).IsRequired();
+        builder.Property(plannedCourseSession => plannedCourseSession.date).IsRequired();
 
         builder.HasOne(plannedCourseSession => plannedCourseSession.plannedCourse)
                 .WithMany(plannedCourse => plannedCourse.plannedCourseSessions)

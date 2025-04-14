@@ -4,6 +4,7 @@ using LayeredArchitecture.WebApi.Students;
 using LayeredArchitecture.WebApi.Courses;
 using LayeredArchitecture.WebApi.PlannedCourses;
 using LayeredArchitecture.WebApi.PlannedCourseStudents;
+using LayeredArchitecture.WebApi.PlannedCourseSessions;
 using LayeredArchitecture.Application.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -60,6 +61,7 @@ app.AddPlannedCoursesEndpoints();
 app.AddCoursesEndpoints();
 app.AddStudentEndpoints();
 app.AddPlannedCourseStudentsEndPoints();
+app.AddPlannedCourseSessionsEndPoints();
 
 //For scalar
 app.MapControllers();

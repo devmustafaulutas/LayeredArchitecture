@@ -72,8 +72,8 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("dateTime")
-                        .HasColumnType("integer");
+                    b.Property<DateOnly>("date")
+                        .HasColumnType("date");
 
                     b.Property<Guid>("plannedCourseId")
                         .HasColumnType("uuid");
@@ -264,7 +264,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("LayeredArchitecture.Domain.Student", "student")
-                        .WithMany()
+                        .WithMany("plannedCourseStudents")
                         .HasForeignKey("studentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -304,6 +304,11 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseSession", b =>
                 {
                     b.Navigation("plannedCourseSessionDiscontinuities");
+                });
+
+            modelBuilder.Entity("LayeredArchitecture.Domain.Student", b =>
+                {
+                    b.Navigation("plannedCourseStudents");
                 });
 #pragma warning restore 612, 618
         }

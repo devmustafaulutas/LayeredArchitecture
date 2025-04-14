@@ -4,23 +4,26 @@ public class PlannedCourseSession
 {
     public Guid Id { get; private set; }
     public Guid plannedCourseId { get; private set; }
+    public DateOnly date { get; private set; }
     public PlannedCourse plannedCourse { get; private set; }
-    public int dateTime { get; set; }
+    
+    
+
     protected PlannedCourseSession()
     {
-        
     }
-    public static PlannedCourseSession Create(Guid plannedCourseIdParam , int dateTimeParam)
+    public static PlannedCourseSession Create(DateOnly dateParam)
     {
-        return new PlannedCourseSession{
+
+        return new PlannedCourseSession
+        {
             Id = Guid.NewGuid(),
-            plannedCourseId = plannedCourseIdParam,
-            dateTime = dateTimeParam
+            date =  dateParam
         };
     }
-    public void Update(int dateTimeParam)
+    public void Update(DateOnly dateParam)
     {
-        dateTime = dateTimeParam;
+        date = dateParam;
     }
     public ICollection<PlannedCourseSessionDiscontinuity> plannedCourseSessionDiscontinuities {get; set ;}
 }

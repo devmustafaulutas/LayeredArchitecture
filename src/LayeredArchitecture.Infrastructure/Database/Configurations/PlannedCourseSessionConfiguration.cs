@@ -15,6 +15,14 @@ public class PlannedCourseSessionConfiguration : IEntityTypeConfiguration<Planne
         builder.HasOne(plannedCourseSession => plannedCourseSession.plannedCourse)
                 .WithMany(plannedCourse => plannedCourse.plannedCourseSessions)
                 .HasForeignKey(plannedCourseSession => plannedCourseSession.plannedCourseId);
+        
+        builder.HasMany(plannedCourseSession => plannedCourseSession.plannedCourseSessionDiscontinuities)
+                .WithOne(discontinuity => discontinuity.plannedCourseSession)
+                .HasForeignKey(discontinuity => discontinuity.PlannedCourseSessionId);
+
+        builder.HasMany(plannedCourseSession => plannedCourseSession.plannedCourseStudents)
+                .WithOne(student => student.plannedCourseSession)
+                .HasForeignKey(student => student.plannedCourseSessionId);
 
     }
 }

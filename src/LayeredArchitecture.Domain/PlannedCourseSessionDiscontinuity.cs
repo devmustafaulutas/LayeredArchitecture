@@ -17,7 +17,7 @@ public class PlannedCourseSessionDiscontinuity
             Id = Guid.NewGuid(),
             price = priceParam ,
             discontinuity = discontinuityParam ,
-            plannedCourseStudentId = plannedCourseSessionIdParam ,
+            plannedCourseStudentId = plannedCourseStudentIdParam ,
             PlannedCourseSessionId = plannedCourseSessionIdParam
         };
     }

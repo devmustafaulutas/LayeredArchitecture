@@ -18,5 +18,10 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(student => student.phone).HasMaxLength(15).IsRequired();
 
         builder.Property(student => student.parentPhone).HasMaxLength(15).IsRequired();
+        
+        builder.HasMany(s => s.studentPayments)
+            .WithOne(sp => sp.student)
+            .HasForeignKey(sp => sp.StudentId);
+
     }
 }

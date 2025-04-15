@@ -6,7 +6,7 @@ public class DeleteCourseCommand(ILayeredArchitectureDbContext dbContext)
 {
     public void Handle(Guid courseId)
     {
-        var entity =dbContext.Courses.Find(courseId);
+        var entity = dbContext.Courses.Find(courseId);
         if(entity is null)
         {
             throw new Exception("Course not found");

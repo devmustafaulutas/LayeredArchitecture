@@ -14,12 +14,12 @@ public class StudentPayment
     {
         
     }
-    public static StudentPayment Create(decimal amountParam , DateTime paymentDateParam , Guid studentIdParam)
+    public static StudentPayment Create(decimal amountParam  , Guid studentIdParam)
     {
         return new StudentPayment{
             Id = Guid.NewGuid(),
             amount = amountParam,
-            paymentDate = paymentDateParam,
+            paymentDate = DateTime.UtcNow,
             StudentId = studentIdParam
         };
     }

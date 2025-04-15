@@ -27,7 +27,5 @@ public class PlannedCourseSession
         date = dateParam;
     }
     public ICollection<PlannedCourseSessionDiscontinuity> plannedCourseSessionDiscontinuities {get; set ;}
-    public ICollection<PlannedCourseStudent> plannedCourseStudents { get; set; }
-    
     
 }

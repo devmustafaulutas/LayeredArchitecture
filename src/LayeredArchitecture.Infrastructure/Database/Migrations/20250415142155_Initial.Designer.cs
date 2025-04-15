@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LayeredArchitecture.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(LayeredArchitectureDbContext))]
-    [Migration("20250415063535_Initial")]
+    [Migration("20250415142155_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -121,10 +121,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("PlannedCourseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("plannedCourseSessionId")
+                    b.Property<Guid>("plannedCourseId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("price")
@@ -135,9 +132,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlannedCourseId");
-
-                    b.HasIndex("plannedCourseSessionId");
+                    b.HasIndex("plannedCourseId");
 
                     b.HasIndex("studentId");
 
@@ -233,7 +228,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("LayeredArchitecture.Domain.PlannedCourseStudent", "plannedCourseStudent")
-                        .WithMany()
+                        .WithMany("discontinuities")
                         .HasForeignKey("plannedCourseStudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -245,13 +240,9 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseStudent", b =>
                 {
-                    b.HasOne("LayeredArchitecture.Domain.PlannedCourse", null)
+                    b.HasOne("LayeredArchitecture.Domain.PlannedCourse", "plannedCourse")
                         .WithMany("plannedCourseStudents")
-                        .HasForeignKey("PlannedCourseId");
-
-                    b.HasOne("LayeredArchitecture.Domain.PlannedCourseSession", "plannedCourseSession")
-                        .WithMany("plannedCourseStudents")
-                        .HasForeignKey("plannedCourseSessionId")
+                        .HasForeignKey("plannedCourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -261,7 +252,7 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("plannedCourseSession");
+                    b.Navigation("plannedCourse");
 
                     b.Navigation("student");
                 });
@@ -299,8 +290,11 @@ namespace LayeredArchitecture.Infrastructure.Database.Migrations
             modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseSession", b =>
                 {
                     b.Navigation("plannedCourseSessionDiscontinuities");
+                });
 
-                    b.Navigation("plannedCourseStudents");
+            modelBuilder.Entity("LayeredArchitecture.Domain.PlannedCourseStudent", b =>
+                {
+                    b.Navigation("discontinuities");
                 });
 
             modelBuilder.Entity("LayeredArchitecture.Domain.Student", b =>

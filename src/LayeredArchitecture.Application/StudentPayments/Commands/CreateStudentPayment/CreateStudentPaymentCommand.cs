@@ -8,7 +8,7 @@ public class CreateStudentPaymentCommand(ILayeredArchitectureDbContext dbContext
 {
     public Guid Handle(CreateStudentPaymentDto createStudentPaymentDto)
     {
-        var student = StudentPayment.Create(createStudentPaymentDto.amount , createStudentPaymentDto.paymentDate , createStudentPaymentDto.studentId);
+        var student = StudentPayment.Create(createStudentPaymentDto.amount , createStudentPaymentDto.studentId);
         if(student is null)
             throw new Exception($"Student payment for create is null !");
         dbContext.StudentPayments.Add(student);

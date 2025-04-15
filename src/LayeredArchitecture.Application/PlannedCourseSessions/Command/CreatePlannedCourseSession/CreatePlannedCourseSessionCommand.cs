@@ -6,7 +6,7 @@ public class CreatePlannedCourseSessionCommand(ILayeredArchitectureDbContext dbC
 {
     public Guid Handle(CreatePlannedCourseSessionDto createPlannedCourseSessionDto)
     {
-        var plannedCourseSession = PlannedCourseSession.Create(createPlannedCourseSessionDto.plannedCourseSessionId , createPlannedCourseSessionDto.date);
+        var plannedCourseSession = PlannedCourseSession.Create(createPlannedCourseSessionDto.plannedCourseId , createPlannedCourseSessionDto.date);
         if(plannedCourseSession is null)
             throw new Exception($"PlannedCourseSession for create is null ! ");
         dbContext.PlannedCourseSessions.Add(plannedCourseSession);

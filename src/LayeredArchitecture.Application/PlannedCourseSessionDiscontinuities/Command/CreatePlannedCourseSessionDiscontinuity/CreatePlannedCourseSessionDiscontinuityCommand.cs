@@ -10,13 +10,13 @@ public class CreatePlannedCourseSessionDiscontinuityCommand(ILayeredArchitecture
     {
 
         var sessions = dbContext.PlannedCourseSessions
-            .Include(student => student.plannedCourseStudents)
+            .Include(student => student.plannedCourse.plannedCourseStudents)
             .FirstOrDefault(s => s.Id == Id);
 
         if(sessions is null)
             throw new Exception("Session is null !!!!!!!");
         
-        foreach(var student in sessions.plannedCourseStudents)
+        foreach(var student in sessions.plannedCourse.plannedCourseStudents)
         {
             var discontinuityParam = PlannedCourseSessionDiscontinuity.Create(
                 priceParam:student.price,

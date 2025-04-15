@@ -1,6 +1,6 @@
 namespace LayeredArchitecture.Application.PlannedCourseSessions.Command.CreatePlannedCourseSession;
 
 public record CreatePlannedCourseSessionDto(
-    Guid plannedCourseSessionId,
+    Guid plannedCourseId,
     DateOnly date 
 );

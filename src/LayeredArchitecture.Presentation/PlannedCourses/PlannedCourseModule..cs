@@ -3,12 +3,14 @@ using LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCours
 using LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCourse;
 using LayeredArchitecture.Application.PlannedCourses.Queries;
 using Microsoft.AspNetCore.Mvc;
+using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
+using FluentValidation;
 
 namespace LayeredArchitecture.WebApi.PlannedCourses;
 
 public static class PlannedCourseModule
 {
-    public static void AddPlannedCoursesEndpoints(this IEndpointRouteBuilder app)
+    public static void AddPlannedCoursesEndpoints(this IEndpointRouteBuilder app )
     {
         app.MapGet("/plannedCourses" , (GetAllPlannedCoursesQuery query) =>
         {

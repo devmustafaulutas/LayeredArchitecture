@@ -1,21 +1,21 @@
-using LayeredArchitecture.Application.Abstractions.Database;
 using LayeredArchitecture.Infrastructure.Database;
+using LayeredArchitecture.Application.Abstractions.Database;
+using LayeredArchitecture.Application.DependencyInjection;
 using LayeredArchitecture.WebApi.Students;
 using LayeredArchitecture.WebApi.Courses;
 using LayeredArchitecture.WebApi.PlannedCourses;
 using LayeredArchitecture.WebApi.PlannedCourseStudents;
 using LayeredArchitecture.WebApi.PlannedCourseSessions;
-using LayeredArchitecture.Application.DependencyInjection;
+using LayeredArchitecture.WebApi.StudentPayments;
+using LayeredArchitecture.WebApi.PlannedCourseSessionDiscontinuities;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-    using LayeredArchitecture.WebApi.StudentPayments;
-using LayeredArchitecture.WebApi.PlannedCourseSessionDiscontinuities;
+using FluentValidation;
+using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
+using LayeredArchitecture.Application.Validators.Course;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Database"),
@@ -25,6 +25,9 @@ builder.Services.AddScoped<ILayeredArchitectureDbContext>(sp => sp.GetRequiredSe
 
 // All Services DI 
 builder.Services.AddApplicationServices();
+
+// Validators DI
+builder.Services.AddCustomValidators();
 
 //Swagger
 // builder.Services.AddEndpointsApiExplorer();

@@ -10,17 +10,16 @@ public static class CoursesModule
 {
     public static void AddCoursesEndpoints(this IEndpointRouteBuilder app)
     {
+
         app.MapGet("/courses", (GetAllCoursesQuery query) =>
         {
             var result = query.Handle();
-            
             return Results.Ok(result);
         });
 
         app.MapPost("/courses", ([FromBody] CreateCourseDto courseDto, CreateCourseCommand command) =>
         {
             var result = command.Handle(courseDto);
-
             return Results.Ok(result);
         });
 

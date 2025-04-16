@@ -16,14 +16,15 @@ public class GetAllStudentsQuery(ILayeredArchitectureDbContext dbContext)
             student.phone ,
             student.parentPhone , 
             
-
-            student.plannedCourseStudents.Sum(pcs => pcs.price)
-                +
+            student.studentPayments.Sum(p => p.amount)
+            -
+            (            
                 student.plannedCourseStudents.SelectMany(pcs => pcs.discontinuities)
-                                            .Where(d => d.discontinuity == true)
-                                            .Sum(d => d.plannedCourseStudent.price)
+                    .Where(d => d.discontinuity == true)
+                    .Sum(d => d.plannedCourseStudent.price)
                 -
-                student.studentPayments.Sum(p => p.amount)
+                student.plannedCourseStudents.Sum(pcs => pcs.price)
+            )
 
         ))
         .ToList();

@@ -10,10 +10,6 @@ using LayeredArchitecture.WebApi.StudentPayments;
 using LayeredArchitecture.WebApi.PlannedCourseSessionDiscontinuities;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using FluentValidation;
-using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
-using LayeredArchitecture.Application.Validators.Course;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +25,8 @@ builder.Services.AddApplicationServices();
 // Validators DI
 builder.Services.AddCustomValidators();
 
+// Wolverine'i DI container'a ekle
+// builder.Host.UseWolverine();
 //Swagger
 // builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();

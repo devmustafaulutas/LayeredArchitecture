@@ -10,7 +10,7 @@ using LayeredArchitecture.WebApi.StudentPayments;
 using LayeredArchitecture.WebApi.PlannedCourseSessionDiscontinuities;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-
+using Wolverine;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
@@ -25,8 +25,8 @@ builder.Services.AddApplicationServices();
 // Validators DI
 builder.Services.AddCustomValidators();
 
-// Wolverine'i DI container'a ekle
-// builder.Host.UseWolverine();
+// Wolverine DI
+builder.Host.UseWolverine();
 //Swagger
 // builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();

@@ -8,12 +8,15 @@ public static class DiscontinuityModule
 {
     public static void AddDiscontinuityEndPoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/discontinuity" , (GetAllDiscontinuityQuery query) =>
+        var group = app.MapGroup("/api/v1/discontinuity")
+                        .WithTags("Discontinuity");
+
+        group.MapGet("/" , (GetAllDiscontinuityQuery query) =>
         {
             var result = query.Handle();
             return Results.Ok(result);
         });
-        app.MapPost("/discontinuity" , ([FromBody] bool discontinuity , Guid Id , CreatePlannedCourseSessionDiscontinuityCommand command) =>
+        group.MapPost("/" , ([FromBody] bool discontinuity , Guid Id , CreatePlannedCourseSessionDiscontinuityCommand command) =>
         {
             command.Handle(Id , discontinuity);
             return Results.Ok();

@@ -10,30 +10,33 @@ public static class CoursesModule
 {
     public static void AddCoursesEndpoints(this IEndpointRouteBuilder app)
     {
+        var group = app.MapGroup("/api/v1/courses")
+                    .WithTags("Courses");
 
-        app.MapGet("/courses", (GetAllCoursesQuery query) =>
+
+        group.MapGet("/", (GetAllCoursesQuery query) =>
         {
             var result = query.Handle();
             return Results.Ok(result);
         });
 
-        app.MapPost("/courses", ([FromBody] CreateCourseDto courseDto, CreateCourseCommand command) =>
+        group.MapPost("/", ([FromBody] CreateCourseDto courseDto, CreateCourseCommand command) =>
         {
             var result = command.Handle(courseDto);
             return Results.Ok(result);
         });
 
-        app.MapPut("/courses/{courseId:guid}", (Guid courseId, [FromBody] UpdateCourseDto courseDto, UpdateCourseCommand command) => {
+        group.MapPut("/{courseId:guid}", (Guid courseId, [FromBody] UpdateCourseDto courseDto, UpdateCourseCommand command) => {
             command.Handle(courseId, courseDto);
 
             return Results.NoContent();
         });
-        app.MapDelete("/course/{courseId:guid}" ,(Guid courseId , DeleteCourseCommand command) =>{
+        group.MapDelete("/{courseId:guid}" ,(Guid courseId , DeleteCourseCommand command) =>{
             command.Handle(courseId);
 
             return Results.NoContent();
         });
-        app.MapDelete("/courses" , (DeleteAllCoursesCommand command)=> 
+        group.MapDelete("/" , (DeleteAllCoursesCommand command)=> 
         {            
             command.Handle();
             return Results.NoContent();

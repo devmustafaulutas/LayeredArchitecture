@@ -10,27 +10,30 @@ public static class StudentPaymentModule
 {
     public static void AddStudentPaymentEndPoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/studentPayment", (GetAllStudentPaymentsQuery command) =>
+        var group = app.MapGroup("/api/v1/studentPayment")
+                        .WithTags("StudentPayment");
+                        
+        group.MapGet("/", (GetAllStudentPaymentsQuery command) =>
         {
             var result = command.Handle();
             return Results.Ok(result);
         });
-        app.MapPut("studentPayment/{studentPaymentId :guid}" , ([FromBody] UpdateStudentPaymentDto updateStudentPaymentDto , Guid studentPaymentId   , UpdateStudentPaymentCommand command ) =>
+        group.MapPut("/{studentPaymentId :guid}" , ([FromBody] UpdateStudentPaymentDto updateStudentPaymentDto , Guid studentPaymentId   , UpdateStudentPaymentCommand command ) =>
         {
             command.Handle(studentPaymentId,updateStudentPaymentDto);
             return Results.Ok();
         });
-        app.MapPost("/studentPayment", ([FromBody]CreateStudentPaymentDto createStudentPaymentDto , CreateStudentPaymentCommand command) =>
+        group.MapPost("/", ([FromBody]CreateStudentPaymentDto createStudentPaymentDto , CreateStudentPaymentCommand command) =>
         {
             var result = command.Handle(createStudentPaymentDto);
             return Results.Ok(result); 
         });
-        app.MapDelete("/studentPayments/{studentPaymentId:guid}" , ([FromRoute] Guid studentPaymentId , DeleteStudentPaymentCommand command) =>
+        group.MapDelete("/{studentPaymentId:guid}" , ([FromRoute] Guid studentPaymentId , DeleteStudentPaymentCommand command) =>
         {
             command.Handle(studentPaymentId);
             return Results.NoContent();
         });
-        app.MapDelete("/studentPayments" , (DeleteAllStudentPaymentCommand command)=>
+        group.MapDelete("/" , (DeleteAllStudentPaymentCommand command)=>
         {
             command.Handle();
             return Results.NoContent();

@@ -12,27 +12,30 @@ public static class StudentModule
 {
     public static void AddStudentEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/students" ,(GetAllStudentsQuery query)=>
+        var group = app.MapGroup("/api/v1/students")
+                        .WithTags("Students");
+
+        group.MapGet("/" ,(GetAllStudentsQuery query)=>
         {
             var result = query.Handle();
             return Results.Ok(result);
         });
-        app.MapPost("/students" , ([FromBody] StudentCreateDto studentCreateDto , StudentCreateCommand command) => 
+        group.MapPost("/" , ([FromBody] StudentCreateDto studentCreateDto , StudentCreateCommand command) => 
         {
             command.Handle(studentCreateDto);
             return Results.Ok();
         });
-        app.MapPut("/students/{studentId:guid}" , (Guid guid , [FromBody] StudentUpdateDto studentUpdateDto , StudentUpdateCommand command) => 
+        group.MapPut("/{studentId:guid}" , (Guid guid , [FromBody] StudentUpdateDto studentUpdateDto , StudentUpdateCommand command) => 
         {
             command.Handle(guid , studentUpdateDto);
             return Results.NoContent();
         });
-        app.MapDelete("/students/{studentId:guid}",(Guid guid , StudentDeleteCommand command) =>
+        group.MapDelete("/{studentId:guid}",(Guid guid , StudentDeleteCommand command) =>
         {
             command.Handle(guid);
             return Results.NoContent();
         });
-        app.MapDelete("/students",(StudentDeleteAllCommand command)=>
+        group.MapDelete("/",(StudentDeleteAllCommand command)=>
         {
             command.Handle();
             return Results.NoContent();

@@ -10,27 +10,30 @@ public static class PlannedCourseStudentModule
 {
     public static void AddPlannedCourseStudentsEndPoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/plannedCourseStudent" , (GetAllPlannedCourseStudentQuery query )=>
+        var group = app.MapGroup("/api/v1/plannedCourseStudent")
+                        .WithTags("PlannedCourseStudent");
+
+        group.MapGet("/" , (GetAllPlannedCourseStudentQuery query )=>
         {
             var result = query.Handle();
             return Results.Ok(result); 
         });
-        app.MapPost("/plannedCourseStudent",([FromBody] CreatePlannedCourseStudentDto createplannedCourseDto , CreatePlannedCourseStudentCommand command) =>
+        group.MapPost("/",([FromBody] CreatePlannedCourseStudentDto createplannedCourseDto , CreatePlannedCourseStudentCommand command) =>
         {
             var result = command.Handle(createplannedCourseDto);
             return Results.Ok(result);
         });
-        app.MapPut("/plannedCourseStudent/{plannedCourseStudentId:guid}", (Guid plannedCourseStudentId , [FromBody] UpdatePlannedCourseStudentDto updatePlannedCourseStudentDto ,UpdatePlannedCourseStudentCommand command) =>
+        group.MapPut("/{plannedCourseStudentId:guid}", (Guid plannedCourseStudentId , [FromBody] UpdatePlannedCourseStudentDto updatePlannedCourseStudentDto ,UpdatePlannedCourseStudentCommand command) =>
         {
             command.Handle(plannedCourseStudentId ,updatePlannedCourseStudentDto);
             return Results.NoContent();
         });
-        app.MapDelete("/plannedCourseStudent/{plannedCourseStudentId:guid}",(Guid plannedCourseStudentId , DeleteOnePlannedCourseStudentCommand command) =>
+        group.MapDelete("/{plannedCourseStudentId:guid}",(Guid plannedCourseStudentId , DeleteOnePlannedCourseStudentCommand command) =>
         {
             command.Handle(plannedCourseStudentId);
             return Results.NoContent();
         });
-        app.MapDelete("/plannedCourseStudents" , (DeleteAllPlannedCourseStudentsCommand command)=> 
+        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsCommand command)=> 
         {
             command.Handle();
             return Results.NoContent();

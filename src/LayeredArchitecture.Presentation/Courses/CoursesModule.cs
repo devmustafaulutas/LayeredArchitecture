@@ -20,11 +20,7 @@ public static class CoursesModule
             return Results.Ok(result);
         });
 
-        group.MapPost("/", ([FromBody] CreateCourseDto courseDto, CreateCourseCommand command) =>
-        {
-            var result = command.Handle(courseDto);
-            return Results.Ok(result);
-        });
+        group.MapPost("/",  ( CreateCourseCommand command)=>command);
 
         group.MapPut("/{courseId:guid}", (Guid courseId, [FromBody] UpdateCourseDto courseDto, UpdateCourseCommand command) => {
             command.Handle(courseId, courseDto);
@@ -39,7 +35,7 @@ public static class CoursesModule
         group.MapDelete("/" , (DeleteAllCoursesCommand command)=> 
         {            
             command.Handle();
-            return Results.NoContent();
+            return Results.NoContent(); 
         });
     }
 }

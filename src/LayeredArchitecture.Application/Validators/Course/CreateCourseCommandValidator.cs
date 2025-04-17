@@ -2,7 +2,7 @@ using FluentValidation;
 using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
 
 namespace LayeredArchitecture.Application.Validators.Course;
-public class CreateCourseCommandValidator : AbstractValidator<CreateCourseDto>
+public class CreateCourseCommandValidator : AbstractValidator<CreateCourseCommand>
 {
     public CreateCourseCommandValidator()
     {

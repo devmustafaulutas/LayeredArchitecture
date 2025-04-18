@@ -1,6 +1,6 @@
 using LayeredArchitecture.Domain;
 namespace LayeredArchitecture.Application.PlannedCourseSessions.Query.GetAllPlannedCourseSession;
-public record PlannedCourseSessionDto(
+public record PlannedCourseSessionCommand(
     Guid id ,
     Guid plannedCourseId,
     string name,

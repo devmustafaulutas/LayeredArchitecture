@@ -3,7 +3,7 @@ using LayeredArchitecture.Application.Helpers;
 
 namespace LayeredArchitecture.Application.PlannedCourses.Queries;
 
-public record PlannedCourseDto(
+public record PlannedCourseCommand(
     Guid Id,
     Guid CourseId,
     string CourseName,
@@ -17,7 +17,7 @@ public record PlannedCourseDto(
     public string StartTime => FormatHelper.FormatTime(StartTimeRaw);
     public string EndTime => FormatHelper.FormatTime(StartTimeRaw + 60);
 
-    public PlannedCourseDto(
+    public PlannedCourseCommand(
         Guid id,
         Guid courseId,
         string courseName,

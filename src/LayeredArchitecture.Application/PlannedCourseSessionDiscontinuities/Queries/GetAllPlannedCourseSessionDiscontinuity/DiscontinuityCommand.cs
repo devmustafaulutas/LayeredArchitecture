@@ -1,6 +1,7 @@
 namespace LayeredArchitecture.Application.PlannedCourseSessionDiscontinuities.Queries.GetAllPlannedCourseSessionDiscontinuity;
 
-public record DiscontinuityDto(
+public record DiscontinuityCommand
+(
     Guid Id ,
     decimal price ,
     bool discontinuity ,

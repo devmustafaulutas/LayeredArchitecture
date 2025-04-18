@@ -1,5 +1,5 @@
 namespace LayeredArchitecture.Application.PlannedCourseStudents.Query.GetAllPlannedCourseStudentsQuery;
-public record PlannedCourseStudentDto
+public record PlannedCourseStudentCommand
 (
     Guid Id,
     decimal price,

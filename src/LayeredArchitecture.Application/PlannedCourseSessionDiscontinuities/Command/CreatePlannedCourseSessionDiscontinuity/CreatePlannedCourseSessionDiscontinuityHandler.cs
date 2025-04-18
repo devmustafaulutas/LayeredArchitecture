@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LayeredArchitecture.Application.PlannedCourseSessionDiscontinuities.Command.CreatePlannedCourseSessionDiscontinuity;
 
-public class CreatePlannedCourseSessionDiscontinuityCommand(ILayeredArchitectureDbContext dbContext)
+public class CreatePlannedCourseSessionDiscontinuityHandler(ILayeredArchitectureDbContext dbContext)
 {
     public void Handle(Guid Id , bool discontinuity)
     {

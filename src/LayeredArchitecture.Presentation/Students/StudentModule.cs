@@ -20,24 +20,24 @@ public static class StudentModule
             var result = query.Handle();
             return Results.Ok(result);
         });
-        group.MapPost("/" , ([FromBody] StudentCreateDto studentCreateDto , StudentCreateCommand command) => 
+        group.MapPost("/" , ([FromBody] StudentCreateCommand studentCreateCommand , StudentCreateHandler handler) => 
         {
-            command.Handle(studentCreateDto);
+            handler.Handle(studentCreateCommand);
             return Results.Ok();
         });
-        group.MapPut("/{studentId:guid}" , (Guid guid , [FromBody] StudentUpdateDto studentUpdateDto , StudentUpdateCommand command) => 
+        group.MapPut("/{studentId:guid}" , (Guid guid , [FromBody] StudentUpdateCommand studentUpdateCommand , StudentUpdateHandler handler) => 
         {
-            command.Handle(guid , studentUpdateDto);
+            handler.Handle(guid , studentUpdateCommand);
             return Results.NoContent();
         });
-        group.MapDelete("/{studentId:guid}",(Guid guid , StudentDeleteCommand command) =>
+        group.MapDelete("/{studentId:guid}",(Guid guid , StudentDeleteHandler handler) =>
         {
-            command.Handle(guid);
+            handler.Handle(guid);
             return Results.NoContent();
         });
-        group.MapDelete("/",(StudentDeleteAllCommand command)=>
+        group.MapDelete("/",(StudentDeleteAllHandler handler)=>
         {
-            command.Handle();
+            handler.Handle();
             return Results.NoContent();
         });
     }

@@ -1,15 +1,3 @@
-using LayeredArchitecture.Application.Abstractions.Database;
-using LayeredArchitecture.Domain;
-
 namespace LayeredArchitecture.Application.Students.Commands.CreateStudent;
 
-public class StudentCreateCommand  (ILayeredArchitectureDbContext dbContext)
-{
-    public Guid Handle(StudentCreateDto studentCreateDto)
-    {
-        var student  = Student.Create(studentCreateDto.nameSurname ,studentCreateDto.parentNameSurname , studentCreateDto.phone , studentCreateDto.parentPhone);
-        dbContext.Students.Add(student);
-        dbContext.SaveChanges();
-        return student.Id;
-    }
-}
+public record StudentCreateCommand(string nameSurname , string parentNameSurname , string phone , string parentPhone);

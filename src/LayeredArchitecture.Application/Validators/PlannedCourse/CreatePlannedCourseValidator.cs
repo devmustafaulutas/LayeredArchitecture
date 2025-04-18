@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LayeredArchitecture.Application.Validators.PlannedCourse;
 
-public class CreatePlannedCourseValidator : AbstractValidator<CreatePlannedCourseDto>
+public class CreatePlannedCourseValidator : AbstractValidator<CreatePlannedCourseCommand>
 {
     public CreatePlannedCourseValidator(ILayeredArchitectureDbContext dbContext)
     {
         RuleFor(x => x)
-            .MustAsync(async (dto, cancellationToken) =>
+            .MustAsync(async (Command, cancellationToken) =>
             {
-                if (dto.startTime == null || dto.day == null)
+                if (Command.startTime == null || Command.day == null)
                     return false;
 
                 var plannedCoursesSameDay = await dbContext.PlannedCourses
                     .Include(pc => pc.Course)
-                    .Where(pc => pc.DayOfWeek == dto.day)
+                    .Where(pc => pc.DayOfWeek == Command.day)
                     .ToListAsync(cancellationToken);
 
                 foreach (var course in plannedCoursesSameDay)
@@ -26,10 +26,10 @@ public class CreatePlannedCourseValidator : AbstractValidator<CreatePlannedCours
                     var duration = course.Course?.Time ?? 0;
                     var existingEnd = existingStart + duration;
 
-                    if (dto.startTime >= existingStart && dto.startTime < existingEnd)
+                    if (Command.startTime >= existingStart && Command.startTime < existingEnd)
                         return false;
 
-                    if (existingEnd > dto.startTime)
+                    if (existingEnd > Command.startTime)
                         return false;
                 }
 

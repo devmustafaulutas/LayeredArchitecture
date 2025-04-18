@@ -1,7 +1,7 @@
 using LayeredArchitecture.Application.Abstractions.Database;
 
 namespace LayeredArchitecture.Application.StudentPayments.Command.DeleteStudentPayment;
-public class DeleteAllStudentPaymentCommand(ILayeredArchitectureDbContext dbContext)
+public class DeleteAllStudentPaymentHandler(ILayeredArchitectureDbContext dbContext)
 {
     public void  Handle()
     {

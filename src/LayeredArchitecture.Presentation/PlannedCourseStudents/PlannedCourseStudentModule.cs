@@ -18,24 +18,24 @@ public static class PlannedCourseStudentModule
             var result = query.Handle();
             return Results.Ok(result); 
         });
-        group.MapPost("/",([FromBody] CreatePlannedCourseStudentDto createplannedCourseDto , CreatePlannedCourseStudentCommand command) =>
+        group.MapPost("/",([FromBody] CreatePlannedCourseStudentCommand createplannedCourseCommand , CreatePlannedCourseStudentHandler handler) =>
         {
-            var result = command.Handle(createplannedCourseDto);
+            var result = handler.Handle(createplannedCourseCommand);
             return Results.Ok(result);
         });
-        group.MapPut("/{plannedCourseStudentId:guid}", (Guid plannedCourseStudentId , [FromBody] UpdatePlannedCourseStudentDto updatePlannedCourseStudentDto ,UpdatePlannedCourseStudentCommand command) =>
+        group.MapPut("/{plannedCourseStudentId:guid}", (Guid plannedCourseStudentId , [FromBody] UpdatePlannedCourseStudentCommand updatePlannedCourseStudentCommand ,UpdatePlannedCourseStudentHandler handler) =>
         {
-            command.Handle(plannedCourseStudentId ,updatePlannedCourseStudentDto);
+            handler.Handle(plannedCourseStudentId ,updatePlannedCourseStudentCommand);
             return Results.NoContent();
         });
-        group.MapDelete("/{plannedCourseStudentId:guid}",(Guid plannedCourseStudentId , DeleteOnePlannedCourseStudentCommand command) =>
+        group.MapDelete("/{plannedCourseStudentId:guid}",(Guid plannedCourseStudentId , DeleteOnePlannedCourseStudentHandler handler) =>
         {
-            command.Handle(plannedCourseStudentId);
+            handler.Handle(plannedCourseStudentId);
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsCommand command)=> 
+        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsHandler handler)=> 
         {
-            command.Handle();
+            handler.Handle();
             return Results.NoContent();
         });
     }

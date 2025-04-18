@@ -4,10 +4,10 @@ namespace LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
 
 public class GetAllCoursesQuery(ILayeredArchitectureDbContext dbContext)
 {
-    public List<CourseDto> Handle()
+    public List<CourseCommand> Handle()
     {
         return dbContext.Courses
-            .Select(course => new CourseDto(course.Id, course.Name,course.Time, course.Quota))
+            .Select(course => new CourseCommand(course.Id, course.Name,course.Time, course.Quota))
             .ToList();
     }
 }

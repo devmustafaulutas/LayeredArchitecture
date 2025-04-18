@@ -11,9 +11,11 @@ namespace LayeredArchitecture.Application.DependencyInjection
 
             var types = assebly.GetTypes()
                 .Where(type => type.IsClass && !type.IsAbstract && 
-                        (type.Name.EndsWith("Command") ||
+                        (
                         type.Name.EndsWith("Query") ||
-                        type.Name.EndsWith("Validator")
+                        type.Name.EndsWith("Validator") ||
+                        type.Name.EndsWith("Handler") 
+
                         ));
 
             foreach (var type in types)

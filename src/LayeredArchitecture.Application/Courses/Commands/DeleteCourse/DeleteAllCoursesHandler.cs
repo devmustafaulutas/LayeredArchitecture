@@ -2,7 +2,7 @@ using LayeredArchitecture.Application.Abstractions.Database;
 using LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
 
 namespace LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
-public class DeleteAllCoursesCommand(ILayeredArchitectureDbContext dbContext)
+public class DeleteAllCoursesHandler(ILayeredArchitectureDbContext dbContext)
 {
     public void Handle()
     {

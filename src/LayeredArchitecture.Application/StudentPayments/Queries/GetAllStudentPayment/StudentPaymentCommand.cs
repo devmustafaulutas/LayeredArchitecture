@@ -1,5 +1,5 @@
 namespace LayeredArchitecture.Application.StudentPayments.Queries.GetAllStudentPayment;
-public record StudentPaymentDto(
+public record StudentPaymentCommand(
     Guid Id,
     Guid studentId,
     string studentName,

@@ -28,6 +28,8 @@ public class LayeredArchitectureDbContext : DbContext, ILayeredArchitectureDbCon
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LayeredArchitectureDbContext).Assembly);
     }
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {return await base.SaveChangesAsync(cancellationToken);}
     public override int SaveChanges()
     {
         return base.SaveChanges();

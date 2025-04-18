@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 namespace LayeredArchitecture.Application.StudentPayments.Queries.GetAllStudentPayment;
 public class GetAllStudentPaymentsQuery(ILayeredArchitectureDbContext dbContext)
 {
-    public List<StudentPaymentDto> Handle()
+    public List<StudentPaymentCommand> Handle()
     {
         var student = dbContext.StudentPayments
             .Include(s => s.students)
-            .Select(s => new StudentPaymentDto(
+            .Select(s => new StudentPaymentCommand(
                 s.Id,
                 s.StudentId,
                 s.student.nameSurname,

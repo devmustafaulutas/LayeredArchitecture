@@ -4,10 +4,10 @@ namespace LayeredArchitecture.Application.PlannedCourseSessionDiscontinuities.Qu
 
 public class GetAllDiscontinuityQuery(ILayeredArchitectureDbContext dbContext)
 {
-    public List<DiscontinuityDto> Handle()
+    public List<DiscontinuityCommand> Handle()
     {
         var discontinuities = dbContext.PlannedCourseSessionDiscontinuities
-            .Select(discontinuity => new DiscontinuityDto(
+            .Select(discontinuity => new DiscontinuityCommand(
                 discontinuity.Id ,
                 discontinuity.price,
                 discontinuity.discontinuity,

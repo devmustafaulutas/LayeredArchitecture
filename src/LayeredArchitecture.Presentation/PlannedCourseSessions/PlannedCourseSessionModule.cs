@@ -17,19 +17,19 @@ public static class PlannedCourseSessionModule
             var results  = query.Handle();
             return Results.Ok(results);
         });
-        group.MapPost("/", ([FromBody]CreatePlannedCourseSessionDto createplannedCourseDto  , CreatePlannedCourseSessionCommand command) => 
+        group.MapPost("/", ([FromBody]CreatePlannedCourseSessionCommand createplannedCourseCommand  , CreatePlannedCourseSessionHandler handler) => 
         {
-            var results = command.Handle(createplannedCourseDto);
+            var results = handler.Handle(createplannedCourseCommand);
             return Results.Ok(results);
         });
-        group.MapDelete("/{plannedCourseSessionId:guid}", ([FromRoute]Guid plannedCourseSessionId , DeleteOnePlannedCourseStudentCommand command) =>
+        group.MapDelete("/{plannedCourseSessionId:guid}", ([FromRoute]Guid plannedCourseSessionId , DeleteOnePlannedCourseStudentHandler handler) =>
         {
-            command.Handle(plannedCourseSessionId);
+            handler.Handle(plannedCourseSessionId);
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsCommand command)=>
+        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsHandler handler)=>
         {
-            command.Handle();
+            handler.Handle();
             return Results.NoContent();
         });
         

@@ -6,10 +6,10 @@ namespace LayeredArchitecture.Application.Students.Queries.GetAllStudents;
 
 public class GetAllStudentsQuery(ILayeredArchitectureDbContext dbContext)
 {
-    public List<StudentDto> Handle()
+    public List<StudentCommand> Handle()
     {
         var students = dbContext.Students
-        .Select(student => new StudentDto(
+        .Select(student => new StudentCommand(
             student.Id ,
             student.nameSurname , 
             student.parentNameSurname ,

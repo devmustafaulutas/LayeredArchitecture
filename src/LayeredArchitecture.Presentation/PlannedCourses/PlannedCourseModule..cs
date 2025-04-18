@@ -5,6 +5,8 @@ using LayeredArchitecture.Application.PlannedCourses.Queries;
 using Microsoft.AspNetCore.Mvc;
 using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
 using FluentValidation;
+using Wolverine.Transports.Sending;
+using Wolverine;
 
 namespace LayeredArchitecture.WebApi.PlannedCourses;
 
@@ -21,19 +23,19 @@ public static class PlannedCourseModule
             return Results.Ok(result);
         });
 
-        group.MapPost("/", ([FromBody] CreatePlannedCourseDto createplannedCourseDto, CreatePlannedCourseCommand command) =>
+        group.MapPost("/", async ([FromBody] CreateCourseCommand command, CreateCourseHandler handler) =>
         {
-            var result = command.Handle(createplannedCourseDto);
+            var result = await handler.Handle(command);
             return Results.Ok(result);
         });
-        group.MapPut("/{plannedCourseId:guid}",([FromBody] UpdatePlannedCourseDto updatePlannedCourseDto, Guid plannedCourseId , UpdatePlannedCourseCommand command) =>
+        group.MapPut("/{plannedCourseId:guid}",async (Guid plannedCourseId , [FromBody] UpdatePlannedCourseCommand command , UpdatePlannedCourseHandler handler) =>
         {
-           command.Handle(plannedCourseId,updatePlannedCourseDto);
-           return Results.NoContent();
+            await handler.Handle(plannedCourseId,command);
+            return Results.NoContent();
         });
-        group.MapDelete("/{plannedCourseId:guid}",(Guid plannedCourseId , DeletePlannedCourseCommand command) =>
+        group.MapDelete("/{plannedCourseId:guid}",(Guid plannedCourseId , DeletePlannedCourseHandler handler) =>
         {
-            command.Handle(plannedCourseId);
+            handler.Handle(plannedCourseId);
             return Results.NoContent();
         });
     }

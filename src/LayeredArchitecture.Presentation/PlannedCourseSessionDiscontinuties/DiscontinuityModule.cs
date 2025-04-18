@@ -16,9 +16,9 @@ public static class DiscontinuityModule
             var result = query.Handle();
             return Results.Ok(result);
         });
-        group.MapPost("/" , ([FromBody] bool discontinuity , Guid Id , CreatePlannedCourseSessionDiscontinuityCommand command) =>
+        group.MapPost("/" , ([FromBody] bool discontinuity , Guid Id , CreatePlannedCourseSessionDiscontinuityHandler handler) =>
         {
-            command.Handle(Id , discontinuity);
+            handler.Handle(Id , discontinuity);
             return Results.Ok();
         });
     }

@@ -5,11 +5,11 @@ namespace LayeredArchitecture.Application.PlannedCourses.Queries;
 
 public class GetAllPlannedCoursesQuery(ILayeredArchitectureDbContext dbContext)
 {
-    public List<PlannedCourseDto> Handle()
+    public List<PlannedCourseCommand> Handle()
     {
         var courses = dbContext.PlannedCourses
             .Include(p => p.Course)  
-            .Select(p => new PlannedCourseDto(
+            .Select(p => new PlannedCourseCommand(
                 p.Id,
                 p.CourseId,
                 p.Course.Name,

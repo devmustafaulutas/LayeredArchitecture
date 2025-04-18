@@ -13,4 +13,6 @@ public interface ILayeredArchitectureDbContext
     DbSet<StudentPayment> StudentPayments { get; }
     DbSet<PlannedCourseStudent> PlannedCourseStudents { get; }
     int SaveChanges();
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
 }

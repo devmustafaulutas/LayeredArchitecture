@@ -2,7 +2,7 @@
 
 namespace LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
 
-public class DeleteCourseCommand(ILayeredArchitectureDbContext dbContext)
+public class DeleteCourseHandler(ILayeredArchitectureDbContext dbContext)
 {
     public void Handle(Guid courseId)
     {

@@ -2,7 +2,7 @@ using LayeredArchitecture.Application.Abstractions.Database;
 
 namespace LayeredArchitecture.Application.Students.Commands.DeleteStudent;
 
-public class StudentDeleteAllCommand(ILayeredArchitectureDbContext dbContext)
+public class StudentDeleteAllHandler(ILayeredArchitectureDbContext dbContext)
 {
     public void Handle()
     {

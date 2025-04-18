@@ -11,6 +11,7 @@ using LayeredArchitecture.WebApi.PlannedCourseSessionDiscontinuities;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Wolverine;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
@@ -25,27 +26,21 @@ builder.Services.AddApplicationServices();
 // Validators DI
 builder.Services.AddCustomValidators();
 
-// Wolverine DI
-builder.Host.UseWolverine();
-//Swagger
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
-
 //Scalar
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+//Wolverine as mediatR
+using var host = await Host.CreateDefaultBuilder()
+    .UseWolverine(opts =>
+    {
+        opts.Durability.Mode = DurabilityMode.MediatorOnly;
+    }).StartAsync();
 
 //Logging
 builder.Logging.AddConsole();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-// Swagger
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
 
 // Scalar
 app.MapOpenApi();
@@ -69,6 +64,6 @@ app.AddStudentPaymentEndPoints();
 app.AddDiscontinuityEndPoints();
 
 //For scalar
-app.MapControllers();
+// app.MapControllers();
 
 app.Run();

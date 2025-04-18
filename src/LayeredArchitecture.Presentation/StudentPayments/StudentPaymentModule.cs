@@ -18,24 +18,24 @@ public static class StudentPaymentModule
             var result = command.Handle();
             return Results.Ok(result);
         });
-        group.MapPut("/{studentPaymentId :guid}" , ([FromBody] UpdateStudentPaymentDto updateStudentPaymentDto , Guid studentPaymentId   , UpdateStudentPaymentCommand command ) =>
+        group.MapPut("/{studentPaymentId :guid}" , ([FromBody] UpdateStudentPaymentCommand updateStudentPaymentCommand , Guid studentPaymentId   , UpdateStudentPaymentHandler handler ) =>
         {
-            command.Handle(studentPaymentId,updateStudentPaymentDto);
+            handler.Handle(studentPaymentId,updateStudentPaymentCommand);
             return Results.Ok();
         });
-        group.MapPost("/", ([FromBody]CreateStudentPaymentDto createStudentPaymentDto , CreateStudentPaymentCommand command) =>
+        group.MapPost("/", ([FromBody]CreateStudentPaymentCommand createStudentPaymentCommand , CreateStudentPaymentHandler handler) =>
         {
-            var result = command.Handle(createStudentPaymentDto);
+            var result = handler.Handle(createStudentPaymentCommand);
             return Results.Ok(result); 
         });
-        group.MapDelete("/{studentPaymentId:guid}" , ([FromRoute] Guid studentPaymentId , DeleteStudentPaymentCommand command) =>
+        group.MapDelete("/{studentPaymentId:guid}" , ([FromRoute] Guid studentPaymentId , DeleteStudentPaymentHandler handler) =>
         {
-            command.Handle(studentPaymentId);
+            handler.Handle(studentPaymentId);
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllStudentPaymentCommand command)=>
+        group.MapDelete("/" , (DeleteAllStudentPaymentHandler handler)=>
         {
-            command.Handle();
+            handler.Handle();
             return Results.NoContent();
         });
     }

@@ -5,10 +5,10 @@ namespace LayeredArchitecture.Application.PlannedCourseSessions.Query.GetAllPlan
 
 public class GetAllPlannedCourseSessionQuery(ILayeredArchitectureDbContext dbContext)
 {
-    public List<PlannedCourseSessionDto> Handle(){
+    public List<PlannedCourseSessionCommand> Handle(){
         var plannedCourseSessions =  dbContext.PlannedCourseSessions
             .Include(p => p.plannedCourse)
-            .Select(p => new PlannedCourseSessionDto(
+            .Select(p => new PlannedCourseSessionCommand(
                 p.Id,
                 p.plannedCourse.Id,
                 p.plannedCourse.Course.Name,

@@ -3,6 +3,8 @@ using LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
 using LayeredArchitecture.Application.Courses.Commands.UpdateCourse;
 using Microsoft.AspNetCore.Mvc;
 using LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
+using FluentValidation.Internal;
+using Wolverine;
 
 namespace LayeredArchitecture.WebApi.Courses;
 
@@ -20,21 +22,25 @@ public static class CoursesModule
             return Results.Ok(result);
         });
 
-        group.MapPost("/",  ( CreateCourseCommand command)=>command);
+        group.MapPost("/", async ([FromBody] CreateCourseCommand command ,[FromServices] CreateCourseHandler handler) =>
+        {
+            var result = await handler.Handle(command);
+            return Results.Ok(result);
+        });
 
-        group.MapPut("/{courseId:guid}", (Guid courseId, [FromBody] UpdateCourseDto courseDto, UpdateCourseCommand command) => {
-            command.Handle(courseId, courseDto);
+        group.MapPut("/{courseId:guid}", (Guid courseId, [FromBody] UpdateCourseCommand courseCommand, UpdateCourseHandler handler) => {
+            handler.Handle(courseId, courseCommand);
 
             return Results.NoContent();
         });
-        group.MapDelete("/{courseId:guid}" ,(Guid courseId , DeleteCourseCommand command) =>{
-            command.Handle(courseId);
+        group.MapDelete("/{courseId:guid}" ,(Guid courseId , DeleteCourseHandler handler) =>{
+            handler.Handle(courseId);
 
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllCoursesCommand command)=> 
+        group.MapDelete("/" , (DeleteAllCoursesHandler handler)=> 
         {            
-            command.Handle();
+            handler.Handle();
             return Results.NoContent(); 
         });
     }

@@ -2,16 +2,23 @@
 
 namespace LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
 
-public class DeleteCourseHandler(ILayeredArchitectureDbContext dbContext)
+public class DeleteCourseHandler
 {
-    public void Handle(Guid courseId)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public DeleteCourseHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var entity = dbContext.Courses.Find(courseId);
+        _dbContext = dbContext;
+    }
+    
+    
+    public async Task Handle(DeleteCourseCommand command)
+    {
+        var entity = await _dbContext.Courses.FindAsync(command.Id);
         if(entity is null)
         {
             throw new Exception("Course not found");
         }
-        dbContext.Courses.Remove(entity);
-        dbContext.SaveChanges();
+        _dbContext.Courses.Remove(entity);
+        await _dbContext.SaveChangesAsync();
     }
 }

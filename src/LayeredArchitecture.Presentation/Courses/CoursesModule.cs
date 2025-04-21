@@ -4,7 +4,6 @@ using LayeredArchitecture.Application.Courses.Commands.UpdateCourse;
 using Microsoft.AspNetCore.Mvc;
 using LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
 using Wolverine;
-using LayeredArchitecture.Application.Handlers.PingHandler;
 
 namespace LayeredArchitecture.WebApi.Courses;
 
@@ -23,21 +22,23 @@ public static class CoursesModule
         });
 
 
-        group.MapPost("/", async ( [FromBody] CreateCourseCommand command ,[FromServices] IMessageBus bus) => await bus.InvokeAsync(command));
+        group.MapPost("/", async ( [FromBody] CreateCourseCommand command ,[FromServices] IMessageBus bus) =>
+        {
+            var result = await bus.InvokeAsync<Guid>(command);
+            return Results.Ok(result);
+        });
 
-        group.MapPut("/{courseId:guid}", (Guid courseId, [FromBody] UpdateCourseCommand courseCommand, UpdateCourseHandler handler) => {
-            handler.Handle(courseId, courseCommand);
-
+        group.MapPut("/{courseId:guid}", async ([FromBody] UpdateCourseCommand command , IMessageBus bus) => {
+            await bus.InvokeAsync(command);
             return Results.NoContent();
         });
-        group.MapDelete("/{courseId:guid}" ,(Guid courseId , DeleteCourseHandler handler) =>{
-            handler.Handle(courseId);
-
+        group.MapDelete("/{courseId:guid}" , async (Guid courseId , [FromServices] IMessageBus bus) =>{
+            await bus.InvokeAsync(new DeleteCourseCommand(courseId));
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllCoursesHandler handler)=> 
-        {            
-            handler.Handle();
+        group.MapDelete("/" , async ([FromServices] IMessageBus bus)=> 
+        {  
+            await bus.InvokeAsync(new DeleteAllCourseCommand());
             return Results.NoContent(); 
         });
     }

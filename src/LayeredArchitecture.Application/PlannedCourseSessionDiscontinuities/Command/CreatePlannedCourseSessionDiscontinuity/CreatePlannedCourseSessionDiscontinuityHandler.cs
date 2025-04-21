@@ -4,14 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LayeredArchitecture.Application.PlannedCourseSessionDiscontinuities.Command.CreatePlannedCourseSessionDiscontinuity;
 
-public class CreatePlannedCourseSessionDiscontinuityHandler(ILayeredArchitectureDbContext dbContext)
+public class CreatePlannedCourseSessionDiscontinuityHandler
 {
-    public void Handle(Guid Id , bool discontinuity)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public CreatePlannedCourseSessionDiscontinuityHandler(ILayeredArchitectureDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    public async Task Handle(Guid Id , bool discontinuity)
     {
 
-        var sessions = dbContext.PlannedCourseSessions
+        var sessions = await  _dbContext.PlannedCourseSessions
             .Include(student => student.plannedCourse.plannedCourseStudents)
-            .FirstOrDefault(s => s.Id == Id);
+            .FirstOrDefaultAsync(s => s.Id == Id);
 
         if(sessions is null)
             throw new Exception("Session is null !!!!!!!");
@@ -24,9 +29,9 @@ public class CreatePlannedCourseSessionDiscontinuityHandler(ILayeredArchitecture
                 plannedCourseStudentIdParam : student.Id ,
                 plannedCourseSessionIdParam : sessions.Id
             );
-            dbContext.PlannedCourseSessionDiscontinuities.Add(discontinuityParam);
+            await _dbContext.PlannedCourseSessionDiscontinuities.AddAsync(discontinuityParam);
         }
 
-        dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 }

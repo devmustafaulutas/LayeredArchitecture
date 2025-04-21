@@ -5,6 +5,8 @@ using LayeredArchitecture.Application.PlannedCourses.Queries;
 using Microsoft.AspNetCore.Mvc;
 using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
 using FluentValidation;
+using Wolverine;
+using LayeredArchitecture.Application.PlannedCourses.Queries.GetAllPlannedCourses;
 
 namespace LayeredArchitecture.WebApi.PlannedCourses;
 
@@ -15,25 +17,25 @@ public static class PlannedCourseModule
         var group = app.MapGroup("/api/v1/plannedCourses")
                             .WithTags("PlannedCourse");
 
-        group.MapGet("/" , (GetAllPlannedCoursesQuery query) =>
+        group.MapGet("/" ,async  ([FromServices] IMessageBus bus) =>
         {
-            var result = query.Handle();
+            var result = await bus.InvokeAsync<List<PlannedCourseCommand>>(new GetAllPlannedCourseQuery());
             return Results.Ok(result);
         });
 
-        group.MapPost("/", async ([FromBody] CreatePlannedCourseCommand command, CreatePlannedCourseHandler handler) =>
+        group.MapPost("/", async ([FromBody] CreatePlannedCourseCommand command, [FromServices] IMessageBus bus) =>
         {
-            var result = await handler.Handle(command);
+            var result = await bus.InvokeAsync<Guid>(command);
             return Results.Ok(result);
         });
-        group.MapPut("/{plannedCourseId:guid}",async (Guid plannedCourseId , [FromBody] UpdatePlannedCourseCommand command , UpdatePlannedCourseHandler handler) =>
+        group.MapPut("/{plannedCourseId:guid}",async ( [FromBody] UpdatePlannedCourseCommand command ,IMessageBus bus) =>
         {
-            await handler.Handle(plannedCourseId,command);
+            await bus.InvokeAsync(command);
             return Results.NoContent();
         });
-        group.MapDelete("/{plannedCourseId:guid}",(Guid plannedCourseId , DeletePlannedCourseHandler handler) =>
+        group.MapDelete("/{plannedCourseId:guid}",async (Guid plannedCourseId ,[FromServices] IMessageBus bus) =>
         {
-            handler.Handle(plannedCourseId);
+            await bus.InvokeAsync(plannedCourseId);
             return Results.NoContent();
         });
     }

@@ -7,22 +7,21 @@ namespace LayeredArchitecture.Application.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            var assebly = Assembly.GetExecutingAssembly();
+            // var assebly = Assembly.GetExecutingAssembly();
 
-            var types = assebly.GetTypes()
-                .Where(type => type.IsClass && !type.IsAbstract && 
-                        (
-                        type.Name.EndsWith("Query") ||
-                        type.Name.EndsWith("Validator") ||
-                        type.Name.EndsWith("Handler") 
+            // var types = assebly.GetTypes()
+            //     .Where(type => type.IsClass && !type.IsAbstract && 
+            //             (
+            //             type.Name.EndsWith("Query") ||
+            //             type.Name.EndsWith("Validator") ||
+            //             type.Name.EndsWith("Handler") 
 
-                        ));
+            //             ));
 
-            foreach (var type in types)
-            {
-                services.AddScoped(type);
-                Console.WriteLine($"---------{type}--------");
-            }
+            // foreach (var type in types)
+            // {
+            //     services.AddScoped(type);
+            // }
 
             return services;
         }

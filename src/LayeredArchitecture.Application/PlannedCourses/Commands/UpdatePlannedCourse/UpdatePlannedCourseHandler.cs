@@ -1,21 +1,25 @@
 using LayeredArchitecture.Application.Abstractions.Database;
 
 namespace  LayeredArchitecture.Application.PlannedCourses.Commands.UpdatePlannedCourse;
-public class UpdatePlannedCourseHandler(ILayeredArchitectureDbContext dbContext)
+public class UpdatePlannedCourseHandler
 {
-
-    public async Task<Guid> Handle( Guid  plannedCourseId , UpdatePlannedCourseCommand command)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public UpdatePlannedCourseHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var plannedCourse = await dbContext.PlannedCourses.FindAsync(plannedCourseId);
+        _dbContext = dbContext;
+    }
+    public async Task<Guid> Handle( UpdatePlannedCourseCommand command)
+    {
+        var plannedCourse = await _dbContext.PlannedCourses.FindAsync(command.plannedCourseId);
         if (plannedCourse is not null)
         {
             plannedCourse.Update(command.day ,command.startTime);
-            dbContext.PlannedCourses.Update(plannedCourse);
-            await dbContext.SaveChangesAsync();
+            _dbContext.PlannedCourses.Update(plannedCourse);
+            await _dbContext.SaveChangesAsync();
         }
         else{
             throw new Exception("Planned Course is null");
         }
-        return plannedCourseId;
+        return command.plannedCourseId;
     }
 }

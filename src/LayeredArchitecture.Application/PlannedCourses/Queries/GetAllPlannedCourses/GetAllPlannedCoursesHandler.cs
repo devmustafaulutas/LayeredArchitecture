@@ -1,13 +1,19 @@
 using LayeredArchitecture.Application.Abstractions.Database;
+using LayeredArchitecture.Application.PlannedCourses.Queries.GetAllPlannedCourses;
 using Microsoft.EntityFrameworkCore;
 
 namespace LayeredArchitecture.Application.PlannedCourses.Queries;
 
-public class GetAllPlannedCoursesQuery(ILayeredArchitectureDbContext dbContext)
+public class GetAllPlannedCoursesHandler
 {
-    public List<PlannedCourseCommand> Handle()
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public GetAllPlannedCoursesHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var courses = dbContext.PlannedCourses
+        _dbContext = dbContext;
+    }
+    public async Task<List<PlannedCourseCommand>> Handle(GetAllPlannedCourseQuery query)
+    {
+        var courses =await  _dbContext.PlannedCourses
             .Include(p => p.Course)  
             .Select(p => new PlannedCourseCommand(
                 p.Id,
@@ -17,7 +23,7 @@ public class GetAllPlannedCoursesQuery(ILayeredArchitectureDbContext dbContext)
                 p.StartTime,  
                 p.Course.Quota  
             ))
-            .ToList();
+            .ToListAsync();
         return courses;
     }
 }

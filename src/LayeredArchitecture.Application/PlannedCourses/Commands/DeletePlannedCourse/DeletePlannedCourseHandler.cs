@@ -3,14 +3,19 @@ using LayeredArchitecture.Application.PlannedCourses.Queries;
 
 namespace LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedCourse;
 
-public class DeletePlannedCourseHandler(ILayeredArchitectureDbContext dbContext)
+public class DeletePlannedCourseHandler
 {
-    public void Handle(Guid guid)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public DeletePlannedCourseHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var entity = dbContext.PlannedCourses.Find(guid);
+        _dbContext = dbContext;
+    }
+    public async Task Handle(DeletePlannedCourseCommand command)
+    {
+        var entity = await _dbContext.PlannedCourses.FindAsync(command.Id);
         if(entity is null)
             throw new Exception("planned course id null");
-        dbContext.PlannedCourses.Remove(entity);
-        dbContext.SaveChanges();
+        _dbContext.PlannedCourses.Remove(entity);
+        await _dbContext.SaveChangesAsync();
     }
 }

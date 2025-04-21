@@ -12,15 +12,20 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Wolverine;
 using LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
+using LayeredArchitecture.Application.Courses.Commands.DeleteCourse;
+using LayeredArchitecture.Application.Courses.Commands.UpdateCourse;
+using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("Database");
 
+var connectionString = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
     options.UseNpgsql(connectionString,
     b => b.MigrationsAssembly("LayeredArchitecture.Infrastructure"))
 );
 builder.Services.AddScoped<ILayeredArchitectureDbContext>(sp => sp.GetRequiredService<LayeredArchitectureDbContext>());
+
+var appAssembly = typeof(CreateCourseHandler).Assembly;
 
 // All Services DI 
 builder.Services.AddApplicationServices();
@@ -35,6 +40,11 @@ builder.Services.AddOpenApi();
 //Wolverine as mediatR
 builder.Host.UseWolverine(opts =>
 {
+    // All Assembly's for Wolverine
+    // opts.Discovery.IncludeAssembly(appAssembly);
+    // opts.Discovery.IncludeAssembly(typeof(ServiceRegisteration).Assembly); // Application
+    // opts.Discovery.IncludeAssembly(typeof(ILayeredArchitectureDbContext).Assembly); // Domain
+    opts.Discovery.IncludeAssembly(appAssembly);
 });
 
 

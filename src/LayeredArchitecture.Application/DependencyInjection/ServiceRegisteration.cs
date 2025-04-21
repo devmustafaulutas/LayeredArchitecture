@@ -21,6 +21,7 @@ namespace LayeredArchitecture.Application.DependencyInjection
             foreach (var type in types)
             {
                 services.AddScoped(type);
+                Console.WriteLine($"---------{type}--------");
             }
 
             return services;

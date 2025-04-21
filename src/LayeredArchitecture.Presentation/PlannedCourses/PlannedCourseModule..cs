@@ -5,8 +5,6 @@ using LayeredArchitecture.Application.PlannedCourses.Queries;
 using Microsoft.AspNetCore.Mvc;
 using LayeredArchitecture.Application.Courses.Commands.CreateCourse;
 using FluentValidation;
-using Wolverine.Transports.Sending;
-using Wolverine;
 
 namespace LayeredArchitecture.WebApi.PlannedCourses;
 
@@ -23,7 +21,7 @@ public static class PlannedCourseModule
             return Results.Ok(result);
         });
 
-        group.MapPost("/", async ([FromBody] CreateCourseCommand command, CreateCourseHandler handler) =>
+        group.MapPost("/", async ([FromBody] CreatePlannedCourseCommand command, CreatePlannedCourseHandler handler) =>
         {
             var result = await handler.Handle(command);
             return Results.Ok(result);

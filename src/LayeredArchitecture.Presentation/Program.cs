@@ -11,11 +11,13 @@ using LayeredArchitecture.WebApi.PlannedCourseSessionDiscontinuities;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Wolverine;
+using LayeredArchitecture.Application.Courses.Queries.GetAllCourses;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddDbContext<LayeredArchitectureDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Database"),
+    options.UseNpgsql(connectionString,
     b => b.MigrationsAssembly("LayeredArchitecture.Infrastructure"))
 );
 builder.Services.AddScoped<ILayeredArchitectureDbContext>(sp => sp.GetRequiredService<LayeredArchitectureDbContext>());
@@ -31,12 +33,12 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 //Wolverine as mediatR
-using var host = await Host.CreateDefaultBuilder()
-    .UseWolverine(opts =>
-    {
-        opts.Durability.Mode = DurabilityMode.MediatorOnly;
-    }).StartAsync();
+builder.Host.UseWolverine(opts =>
+{
+});
 
+
+builder.Services.AddScoped<PingWorker>();
 //Logging
 builder.Logging.AddConsole();
 var app = builder.Build();

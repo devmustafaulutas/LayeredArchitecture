@@ -5,10 +5,9 @@ using LayeredArchitecture.Domain;
 
 namespace LayeredArchitecture.Application.PlannedCourses.Commands.CreatePlannedCourse;
 
-public class CreatePlannedCourseHandler()
+public class CreatePlannedCourseHandler(ILayeredArchitectureDbContext dbContext , CreatePlannedCourseValidator createValidator)
 {   
-    public async Task<Guid> Handle(CreatePlannedCourseCommand command ,
-    ILayeredArchitectureDbContext dbContext , CreatePlannedCourseValidator createValidator)
+    public async Task<Guid> Handle(CreatePlannedCourseCommand command)
     {
         var validation = await createValidator.ValidateAsync(command);
         if(!validation.IsValid)

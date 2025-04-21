@@ -2,15 +2,20 @@ using LayeredArchitecture.Application.Abstractions.Database;
 using LayeredArchitecture.Domain;
 
 namespace LayeredArchitecture.Application.PlannedCourseSessions.Command.CreatePlannedCourseSession;
-public class CreatePlannedCourseSessionHandler(ILayeredArchitectureDbContext dbContext)
+public class CreatePlannedCourseSessionHandler
 {
-    public Guid Handle(CreatePlannedCourseSessionCommand createPlannedCourseSessionCommand)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public CreatePlannedCourseSessionHandler(ILayeredArchitectureDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    public async Task<Guid> Handle(CreatePlannedCourseSessionCommand createPlannedCourseSessionCommand)
     {
         var plannedCourseSession = PlannedCourseSession.Create(createPlannedCourseSessionCommand.plannedCourseId , createPlannedCourseSessionCommand.date);
         if(plannedCourseSession is null)
             throw new Exception($"PlannedCourseSession for create is null ! ");
-        dbContext.PlannedCourseSessions.Add(plannedCourseSession);
-        dbContext.SaveChanges();
+        await _dbContext.PlannedCourseSessions.AddAsync(plannedCourseSession);
+        await _dbContext.SaveChangesAsync();
         return plannedCourseSession.Id;
     }
 }

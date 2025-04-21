@@ -1,21 +1,7 @@
-using LayeredArchitecture.Application.Abstractions.Database;
-
-using Microsoft.EntityFrameworkCore;
-
-namespace LayeredArchitecture.Application.PlannedCourseStudents.Query.GetAllPlannedCourseStudentsQuery;
-public class GetAllPlannedCourseStudentQuery (ILayeredArchitectureDbContext dbContext)
+namespace LayeredArchitecture.Application.PlannedCourseStudents.Query.GetAllPlannedCourseStudents
 {
-    public List<PlannedCourseStudentCommand> Handle()
+    public class GetAllPlannedCourseStudentQuery
     {
-        var plannedCourseStudent = dbContext.PlannedCourseStudents
-            .Include(s => s.student)
-            .Select(pcs => new PlannedCourseStudentCommand
-            (
-                pcs.Id,
-                pcs.price,
-                pcs.student.nameSurname
-            ))
-            .ToList();
-        return plannedCourseStudent;
+        
     }
-}   
+}

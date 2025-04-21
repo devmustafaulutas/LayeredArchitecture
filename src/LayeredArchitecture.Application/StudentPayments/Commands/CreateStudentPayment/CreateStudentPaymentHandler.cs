@@ -4,15 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LayeredArchitecture.Application.StudentPayments.Command.CreateStudentPayment;
 
-public class CreateStudentPaymentHandler(ILayeredArchitectureDbContext dbContext)
+public class CreateStudentPaymentHandler
 {
-    public Guid Handle(CreateStudentPaymentCommand createStudentPaymentCommand)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public  CreateStudentPaymentHandler(ILayeredArchitectureDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    public async Task<Guid> Handle(CreateStudentPaymentCommand createStudentPaymentCommand)
     {
         var student = StudentPayment.Create(createStudentPaymentCommand.amount , createStudentPaymentCommand.studentId);
         if(student is null)
             throw new Exception($"Student payment for create is null !");
-        dbContext.StudentPayments.Add(student);
-        dbContext.SaveChanges();
+        await _dbContext.StudentPayments.AddAsync(student);
+        await _dbContext.SaveChangesAsync();
         return student.Id;
     }
 }

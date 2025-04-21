@@ -2,6 +2,8 @@ using LayeredArchitecture.Application.PlannedCourseSessions.Query.GetAllPlannedC
 using LayeredArchitecture.Application.PlannedCourseSessions.Command.CreatePlannedCourseSession;
 using Microsoft.AspNetCore.Mvc;
 using LayeredArchitecture.Application.PlannedCourseStudents.Command.DeletePlannedCourseStudent;
+using Wolverine;
+using LayeredArchitecture.Application.PlannedCourseSessions.Command.DeletePlannedCourseSession;
 
 namespace LayeredArchitecture.WebApi.PlannedCourseSessions;
 
@@ -12,24 +14,24 @@ public static class PlannedCourseSessionModule
         var group =  app.MapGroup("/api/v1/plannedCourseSession")
                         .WithTags("PlannedCourseSession");
 
-        group.MapGet("/" , (GetAllPlannedCourseSessionQuery query) =>
+        group.MapGet("/" , async ([FromServices] IMessageBus bus) =>
         {
-            var results  = query.Handle();
+            var results = await bus.InvokeAsync<List<PlannedCourseSessionCommand>>(new GetAllPlannedCourseSessionQuery());
             return Results.Ok(results);
         });
-        group.MapPost("/", ([FromBody]CreatePlannedCourseSessionCommand createplannedCourseCommand  , CreatePlannedCourseSessionHandler handler) => 
+        group.MapPost("/", async ([FromBody]CreatePlannedCourseSessionCommand command  ,IMessageBus bus) => 
         {
-            var results = handler.Handle(createplannedCourseCommand);
+            var results = await bus.InvokeAsync<Guid>(command);
             return Results.Ok(results);
         });
-        group.MapDelete("/{plannedCourseSessionId:guid}", ([FromRoute]Guid plannedCourseSessionId , DeleteOnePlannedCourseStudentHandler handler) =>
+        group.MapDelete("/{plannedCourseSessionId:guid}", async (Guid plannedCourseSessionId ,[FromServices] IMessageBus bus ) =>
         {
-            handler.Handle(plannedCourseSessionId);
+            await bus.InvokeAsync(new DeletePlannedCourseSessionCommand());
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsHandler handler)=>
+        group.MapDelete("/" , async([FromServices] IMessageBus bus)=>
         {
-            handler.Handle();
+            await bus.InvokeAsync(new DeleteAllPlannedCourseSessionCommand());
             return Results.NoContent();
         });
         

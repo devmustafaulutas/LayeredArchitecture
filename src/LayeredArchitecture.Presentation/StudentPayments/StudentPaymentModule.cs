@@ -1,8 +1,11 @@
 using LayeredArchitecture.Application.StudentPayments.Command.CreateStudentPayment;
 using LayeredArchitecture.Application.StudentPayments.Command.DeleteStudentPayment;
 using LayeredArchitecture.Application.StudentPayments.Command.UpdateStudentPayment;
+using LayeredArchitecture.Application.StudentPayments.Commands.DeleteStudentPayment;
 using LayeredArchitecture.Application.StudentPayments.Queries.GetAllStudentPayment;
+using LayeredArchitecture.Application.Students.Queries.GetAllStudents;
 using Microsoft.AspNetCore.Mvc;
+using Wolverine;
 
 namespace LayeredArchitecture.WebApi.StudentPayments;
 
@@ -13,29 +16,29 @@ public static class StudentPaymentModule
         var group = app.MapGroup("/api/v1/studentPayment")
                         .WithTags("StudentPayment");
                         
-        group.MapGet("/", (GetAllStudentPaymentsQuery command) =>
+        group.MapGet("/",async (IMessageBus bus) =>
         {
-            var result = command.Handle();
+            var result = await bus.InvokeAsync<List<StudentCommand>>(new GetAllStudentPaymentsQuery());
             return Results.Ok(result);
         });
-        group.MapPut("/{studentPaymentId :guid}" , ([FromBody] UpdateStudentPaymentCommand updateStudentPaymentCommand , Guid studentPaymentId   , UpdateStudentPaymentHandler handler ) =>
+        group.MapPut("/{studentPaymentId :guid}" ,async ([FromBody] UpdateStudentPaymentCommand command , Guid studentPaymentId   , IMessageBus bus) =>
         {
-            handler.Handle(studentPaymentId,updateStudentPaymentCommand);
+            var result = await bus.InvokeAsync<Guid>(command);
             return Results.Ok();
         });
-        group.MapPost("/", ([FromBody]CreateStudentPaymentCommand createStudentPaymentCommand , CreateStudentPaymentHandler handler) =>
+        group.MapPost("/", async ([FromBody]CreateStudentPaymentCommand command ,IMessageBus bus) =>
         {
-            var result = handler.Handle(createStudentPaymentCommand);
+            var result = await bus.InvokeAsync<Guid>(command); 
             return Results.Ok(result); 
         });
-        group.MapDelete("/{studentPaymentId:guid}" , ([FromRoute] Guid studentPaymentId , DeleteStudentPaymentHandler handler) =>
+        group.MapDelete("/{studentPaymentId:guid}" ,async  ([FromRoute] Guid studentPaymentId , IMessageBus bus) =>
         {
-            handler.Handle(studentPaymentId);
+            await bus.InvokeAsync<Guid>(studentPaymentId);
             return Results.NoContent();
         });
-        group.MapDelete("/" , (DeleteAllStudentPaymentHandler handler)=>
+        group.MapDelete("/" , async (IMessageBus bus)=>
         {
-            handler.Handle();
+            await bus.InvokeAsync(new DeleteAllStudentPaymentCommand());
             return Results.NoContent();
         });
     }

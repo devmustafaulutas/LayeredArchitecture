@@ -3,13 +3,18 @@ using LayeredArchitecture.Domain;
 
 namespace LayeredArchitecture.Application.Students.Commands.CreateStudent;
 
-public class StudentCreateHandler (ILayeredArchitectureDbContext dbContext)
+public class StudentCreateHandler 
 {
-    public Guid Handle(StudentCreateCommand studentCreateCommand)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public StudentCreateHandler (ILayeredArchitectureDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    public async Task<Guid> Handle(StudentCreateCommand studentCreateCommand)
     {
         var student  = Student.Create(studentCreateCommand.nameSurname ,studentCreateCommand.parentNameSurname , studentCreateCommand.phone , studentCreateCommand.parentPhone);
-        dbContext.Students.Add(student);
-        dbContext.SaveChanges();
+        await _dbContext.Students.AddAsync(student);
+        await _dbContext.SaveChangesAsync();
         return student.Id;
     }
 }

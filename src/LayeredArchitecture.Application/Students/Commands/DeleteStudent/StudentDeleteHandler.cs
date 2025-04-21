@@ -2,14 +2,19 @@ using LayeredArchitecture.Application.Abstractions.Database;
 
 namespace LayeredArchitecture.Application.Students.Commands.DeleteStudent;
 
-public class StudentDeleteHandler(ILayeredArchitectureDbContext dbContext)
+public class StudentDeleteHandler
 {
-    public void Handle(Guid id)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public StudentDeleteHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var entity = dbContext.Students.Find(id);
+        _dbContext = dbContext;
+    }
+    public async Task Handle(StudentDeleteCommand command)
+    {
+        var entity =await _dbContext.Students.FindAsync(command.Id);
         if(entity is null)
             throw new Exception("Student id for delete is null !");
-        dbContext.Students.Remove(entity);
-        dbContext.SaveChanges();
+        _dbContext.Students.Remove(entity);
+        await _dbContext.SaveChangesAsync();
     }
 }

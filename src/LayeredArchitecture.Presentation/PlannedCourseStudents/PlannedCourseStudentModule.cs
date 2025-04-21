@@ -1,8 +1,10 @@
 using LayeredArchitecture.Application.PlannedCourseStudents.Command.CreatePlannedCourseStudent;
 using LayeredArchitecture.Application.PlannedCourseStudents.Command.DeletePlannedCourseStudent;
 using LayeredArchitecture.Application.PlannedCourseStudents.Command.UpdatePlannedCourseStudent;
+using LayeredArchitecture.Application.PlannedCourseStudents.Query.GetAllPlannedCourseStudents;
 using LayeredArchitecture.Application.PlannedCourseStudents.Query.GetAllPlannedCourseStudentsQuery;
 using Microsoft.AspNetCore.Mvc;
+using Wolverine;
 
 namespace LayeredArchitecture.WebApi.PlannedCourseStudents;
 
@@ -13,29 +15,29 @@ public static class PlannedCourseStudentModule
         var group = app.MapGroup("/api/v1/plannedCourseStudent")
                         .WithTags("PlannedCourseStudent");
 
-        group.MapGet("/" , (GetAllPlannedCourseStudentQuery query )=>
+        group.MapGet("/" , async (IMessageBus bus ) =>
         {
-            var result = query.Handle();
+            var result = await bus.InvokeAsync<List<PlannedCourseStudentCommand>>(new GetAllPlannedCourseStudentQuery());
             return Results.Ok(result); 
         });
-        group.MapPost("/",([FromBody] CreatePlannedCourseStudentCommand createplannedCourseCommand , CreatePlannedCourseStudentHandler handler) =>
+        group.MapPost("/", async ([FromBody] CreatePlannedCourseStudentCommand command ,IMessageBus bus) =>
         {
-            var result = handler.Handle(createplannedCourseCommand);
+            var result = await bus.InvokeAsync<Guid>(command);
             return Results.Ok(result);
         });
-        group.MapPut("/{plannedCourseStudentId:guid}", (Guid plannedCourseStudentId , [FromBody] UpdatePlannedCourseStudentCommand updatePlannedCourseStudentCommand ,UpdatePlannedCourseStudentHandler handler) =>
+        group.MapPut("/{plannedCourseStudentId:guid}",async (Guid plannedCourseStudentId , [FromBody] UpdatePlannedCourseStudentCommand command ,IMessageBus bus) =>
         {
-            handler.Handle(plannedCourseStudentId ,updatePlannedCourseStudentCommand);
+            var result = await bus.InvokeAsync<Guid>(command);
+            return Results.Ok(result);
+        });
+        group.MapDelete("/{plannedCourseStudentId:guid}", async(Guid plannedCourseStudentId , IMessageBus bus) =>
+        {
+            await bus.InvokeAsync<DeleteAllPlannedCourseStudentCommand>(plannedCourseStudentId);
             return Results.NoContent();
         });
-        group.MapDelete("/{plannedCourseStudentId:guid}",(Guid plannedCourseStudentId , DeleteOnePlannedCourseStudentHandler handler) =>
+        group.MapDelete("/" , async (IMessageBus bus)=> 
         {
-            handler.Handle(plannedCourseStudentId);
-            return Results.NoContent();
-        });
-        group.MapDelete("/" , (DeleteAllPlannedCourseStudentsHandler handler)=> 
-        {
-            handler.Handle();
+            await bus.InvokeAsync(new DeleteAllPlannedCourseStudentCommand());
             return Results.NoContent();
         });
     }

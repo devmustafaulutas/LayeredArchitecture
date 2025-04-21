@@ -2,17 +2,22 @@ using LayeredArchitecture.Application.Abstractions.Database;
 using LayeredArchitecture.Domain;
 namespace LayeredArchitecture.Application.Students.Commands.UpdateStudent;
 
-public class StudentUpdateHandler(ILayeredArchitectureDbContext dbContext)
+public class StudentUpdateHandler
 {
-    public void Handle(Guid guid,StudentUpdateCommand studentCommand)
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public StudentUpdateHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var student = dbContext.Students.Find(guid);
+        _dbContext = dbContext;
+    }
+    public async Task Handle(StudentUpdateCommand command)
+    {
+        var student = await _dbContext.Students.FindAsync(command.Id);
         if(student is null)
             throw new Exception("Student for update id is null");
 
-        student.Update(studentCommand.nameSurnameParam, studentCommand.parentNameSurnameParam, studentCommand.phoneParam,
-                       studentCommand.parentPhoneParam);
-        dbContext.Students.Update(student);
-        dbContext.SaveChanges();
+        student.Update(command.nameSurnameParam, command.parentNameSurnameParam, command.phoneParam,
+                       command.parentPhoneParam);
+        _dbContext.Students.Update(student);
+        await _dbContext.SaveChangesAsync();
     }
 }

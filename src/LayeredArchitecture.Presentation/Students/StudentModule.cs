@@ -5,6 +5,7 @@ using LayeredArchitecture.Application.Students.Commands.DeleteStudent;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Wolverine;
 
 namespace LayeredArchitecture.WebApi.Students;
 
@@ -15,29 +16,29 @@ public static class StudentModule
         var group = app.MapGroup("/api/v1/students")
                         .WithTags("Students");
 
-        group.MapGet("/" ,(GetAllStudentsQuery query)=>
+        group.MapGet("/" , async(IMessageBus bus)=>
         {
-            var result = query.Handle();
+            var result = await bus.InvokeAsync<List<StudentCommand>>(new GetAllStudentsQuery());
             return Results.Ok(result);
         });
-        group.MapPost("/" , ([FromBody] StudentCreateCommand studentCreateCommand , StudentCreateHandler handler) => 
+        group.MapPost("/" , async ([FromBody] StudentCreateCommand command ,IMessageBus bus) => 
         {
-            handler.Handle(studentCreateCommand);
+            var result = await bus.InvokeAsync<Guid>(command);
             return Results.Ok();
         });
-        group.MapPut("/{studentId:guid}" , (Guid guid , [FromBody] StudentUpdateCommand studentUpdateCommand , StudentUpdateHandler handler) => 
+        group.MapPut("/{studentId:guid}" ,async (Guid guid , [FromBody] StudentUpdateCommand command , IMessageBus bus) => 
         {
-            handler.Handle(guid , studentUpdateCommand);
+            var result = await bus.InvokeAsync<Guid>(command);
             return Results.NoContent();
         });
-        group.MapDelete("/{studentId:guid}",(Guid guid , StudentDeleteHandler handler) =>
+        group.MapDelete("/{studentId:guid}", async(Guid guid ,IMessageBus bus) =>
         {
-            handler.Handle(guid);
+            await bus.InvokeAsync<StudentDeleteCommand>(guid);
             return Results.NoContent();
         });
-        group.MapDelete("/",(StudentDeleteAllHandler handler)=>
+        group.MapDelete("/",async (IMessageBus bus)=>
         {
-            handler.Handle();
+            await bus.InvokeAsync(new StudentDeleteAllCommand());
             return Results.NoContent();
         });
     }

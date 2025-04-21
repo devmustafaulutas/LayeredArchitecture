@@ -4,6 +4,5 @@ namespace LayeredArchitecture.Application.PlannedCourses.Commands.DeletePlannedC
     {
         public Guid Id { get; set; }
         
-        
     }
 }

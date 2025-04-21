@@ -4,15 +4,20 @@ using LayeredArchitecture.Application.Students.Commands.DeleteStudent;
 using LayeredArchitecture.Domain;
 
 namespace LayeredArchitecture.Application.StudentPayments.Command.UpdateStudentPayment;
-public class UpdateStudentPaymentHandler(ILayeredArchitectureDbContext dbContext)
+public class UpdateStudentPaymentHandler
 {
-    public void Handle(Guid id , UpdateStudentPaymentCommand studentPaymentCommand) 
+    private readonly ILayeredArchitectureDbContext _dbContext;
+    public UpdateStudentPaymentHandler(ILayeredArchitectureDbContext dbContext)
     {
-        var sp = dbContext.StudentPayments.Find(id);
+        _dbContext = dbContext;
+    }
+    public async Task Handle( UpdateStudentPaymentCommand command) 
+    {
+        var sp = await _dbContext.StudentPayments.FindAsync(command.Id);
         if(sp is null)
             throw new Exception($"Student Payment for update is null !");
-        sp.Update(studentPaymentCommand.amount);
-        dbContext.StudentPayments.Update(sp);
-        dbContext.SaveChanges();
+        sp.Update(command.amount);
+        _dbContext.StudentPayments.Update(sp);
+        await _dbContext.SaveChangesAsync();
     }
 }
